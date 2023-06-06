@@ -1,0 +1,9 @@
+[Core]
+Name = Reminder
+Module = reminder
+
+[Documentation]
+Description = Plugin to send reminders before every meetings
+
+[Python]
+Version = 3
