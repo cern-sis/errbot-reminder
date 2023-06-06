@@ -1,0 +1,10 @@
+[Core]
+name = errbot-reminder
+module = github
+
+[Documentation]
+description = Plugin to send reminders before every meetings
+
+[Python]
+version = 3
+
