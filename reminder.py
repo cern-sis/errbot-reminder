@@ -21,8 +21,7 @@ class Reminder(BotPlugin):
         nb_weeks = nb_days / 7
         nb_weeks = int(nb_weeks.total_seconds())
 
-        if nb_weeks % 2 == 0:
-            return True
+        return nb_weeks % 2 == 0
 
     @botcmd
     def notify_for_daily_meeting(self, msg, args):
