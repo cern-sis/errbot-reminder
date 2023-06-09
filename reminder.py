@@ -5,7 +5,7 @@ from errbot import BotPlugin, botcmd
 # Daily / Retrospective --> If it's an ordinary day or a retrospective, meeting at 9:30
 # Sprint Planning --> If it's a Sprint planning, meeting at 15:30
 # Sprint review --> If it's a Sprint Review, meeting at 14:45
-#  -----------------
+#  -----------
 
 
 class Reminder(BotPlugin):
