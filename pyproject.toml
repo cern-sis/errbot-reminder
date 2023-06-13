@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "errbot-reminder"
+version = "0.1.0"
+description = ""
+authors = ["adrien5054 <ad.stucki@free.fr>"]
+readme = "README.md"
+packages = [{include = "tests"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.27.1"
+pytest = "^7.3.2"
+freezegun = "^1.2.2"
+datetime = "^5.1"
+pytz = "^2023.3"
+errbot = "^6.1.9"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
