@@ -158,4 +158,5 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(60, self.notify_for_daily_meeting())
+        self.start_poller(60, self.notify_for_daily_meeting(None, None, None))
+        return "Daily meetings notifications activated"
