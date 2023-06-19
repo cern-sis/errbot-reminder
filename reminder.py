@@ -124,7 +124,6 @@ class Reminder(BotPlugin):
     @botcmd
     def notify_for_daily_meeting(self, msg, args):
         stream = msg._from._room._id
-
         client = self._bot.client
 
         today = datetime.now()
@@ -136,7 +135,7 @@ class Reminder(BotPlugin):
 
         if day_of_the_week != 5 and day_of_the_week != 6:
             if date.today().weekday() == 0 and self.is_sprint_planning():
-                meeting_time = time(17, 35)
+                meeting_time = time(17, 40)
                 topic = "sprint planning"
 
             elif date.today().weekday() == 3 and not self.is_sprint_planning():
@@ -155,7 +154,8 @@ class Reminder(BotPlugin):
 
             if (
                 current_time.hour == meeting_datetime.hour
-                and current_time.minute == meeting_datetime.minute - 15
+                and current_time.minute
+                == meeting_datetime.minute - timedelta(minutes=15)
             ):
                 client.send_message(
                     {
@@ -168,7 +168,8 @@ class Reminder(BotPlugin):
 
             if (
                 current_time.hour == meeting_datetime.hour
-                and current_time.minute == meeting_datetime.minute - 5
+                and current_time.minute
+                == meeting_datetime.minute - timedelta(minutes=5)
             ):
                 client.send_message(
                     {
