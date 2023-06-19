@@ -85,7 +85,7 @@ class Reminder(BotPlugin):
         return next_daily.strftime("%Y-%m-%d %H:%M")
 
     @botcmd
-    def reminder_next():
+    def reminder_next(self, msg, args):
         today = datetime.now()
         next_retrospective = Reminder.next_occurance("Sprint retrospective", today)
         return "\n".join(

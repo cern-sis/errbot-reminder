@@ -48,7 +48,9 @@ def test_next_retrospective():
 @freeze_time("2023-06-12 15:32", tz_offset=2)
 def test_next_daily():
     test_date = datetime(2023, 6, 12, 15, 32)
+
     expected_result = datetime(2023, 6, 13, 9, 30).strftime("%Y-%m-%d %H:%M")
+
     assert Reminder.next_daily(test_date) == expected_result
 
 
@@ -63,4 +65,4 @@ def test_reminder_next():
             f"Next retrospective: {restrospective_content.strftime('%Y-%m-%d %H:%M')}",
         ]
     )
-    assert Reminder.reminder_next() == expected_response
+    assert Reminder.reminder_next(None, None, None) == expected_response
