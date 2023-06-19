@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta  # , timezone, time
+from datetime import date, datetime, time, timedelta  # , timezone, time
 
 import pytz
 from errbot import BotPlugin, botcmd
@@ -117,63 +117,64 @@ class Reminder(BotPlugin):
     #         {"type": "stream", "to": stream, "topic": topic, "content": content}
     #     )
 
-    # @botcmd
-    # def notify_for_daily_meeting(self, msg, args):
-    #     stream = msg._from._room._id
+    def activate(self):
+        super().activate()
+        self.start_poller(60, self.notify_for_daily_meeting)
 
-    #     client = self._bot.client
+    @botcmd
+    def notify_for_daily_meeting(self, msg, args):
+        stream = msg._from._room._id
 
-    #     day_of_the_week = datetime.now(timezone).weekday()
-    #     current_time = datetime.now(timezone).replace(second=0, microsecond=0)
-    #     stream = "tools & services"
+        client = self._bot.client
 
-    #     if day_of_the_week != 5 and day_of_the_week != 6:
-    #         if date.today().weekday() == 0 and self.is_sprint_planning():
-    #             meeting_time = time(17, 5)
-    #             topic = "sprint planning"
+        today = datetime.now()
+        today = tz_cern.localize(today)
 
-    #         elif date.today().weekday() == 3 and not self.is_sprint_planning():
-    #             meeting_time = time(14, 45)
-    #             topic = "sprint review"
+        day_of_the_week = today.weekday()
+        current_time = today.replace(second=0, microsecond=0)
+        stream = "tools & services"
 
-    #         elif date.today().weekday() == 4 and not self.is_sprint_planning():
-    #             meeting_time = time(9, 30)
-    #             topic = "retrospective"
+        if day_of_the_week != 5 and day_of_the_week != 6:
+            if date.today().weekday() == 0 and self.is_sprint_planning():
+                meeting_time = time(17, 35)
+                topic = "sprint planning"
 
-    #         else:
-    #             meeting_time = time(9, 30)
-    #             topic = "daily"
+            elif date.today().weekday() == 3 and not self.is_sprint_planning():
+                meeting_time = time(14, 45)
+                topic = "sprint review"
 
-    #         meeting_datetime = datetime.combine(
-    #             datetime.now(timezone).date(), meeting_time
-    #         )
+            elif date.today().weekday() == 4 and not self.is_sprint_planning():
+                meeting_time = time(9, 30)
+                topic = "retrospective"
 
-    #         if (
-    #             current_time.hour == meeting_datetime.hour
-    #             and current_time.minute == meeting_datetime.minute - 15
-    #         ):
-    #             client.send_message(
-    #                 {
-    #                     "type": "stream",
-    #                     "to": stream,
-    #                     "topic": topic,
-    #                     "content": "TEST - Meeting in 15 minutes",
-    #                 }
-    #             )
+            else:
+                meeting_time = time(9, 30)
+                topic = "daily"
 
-    #         if (
-    #             current_time.hour == meeting_datetime.hour
-    #             and current_time.minute == meeting_datetime.minute - 5
-    #         ):
-    #             client.send_message(
-    #                 {
-    #                     "type": "stream",
-    #                     "to": stream,
-    #                     "topic": topic,
-    #                     "content": "TEST - Meeting in 5 minutes",
-    #                 }
-    #             )
+            meeting_datetime = datetime.combine(today.date(), meeting_time)
 
-    # def activate(self):
-    #     super().activate()
-    #     self.start_poller(60, self.notify_for_daily_meeting)
+            if (
+                current_time.hour == meeting_datetime.hour
+                and current_time.minute == meeting_datetime.minute - 15
+            ):
+                client.send_message(
+                    {
+                        "type": "stream",
+                        "to": stream,
+                        "topic": topic,
+                        "content": "TEST - Meeting in 15 minutes",
+                    }
+                )
+
+            if (
+                current_time.hour == meeting_datetime.hour
+                and current_time.minute == meeting_datetime.minute - 5
+            ):
+                client.send_message(
+                    {
+                        "type": "stream",
+                        "to": stream,
+                        "topic": topic,
+                        "content": "TEST - Meeting in 5 minutes",
+                    }
+                )
