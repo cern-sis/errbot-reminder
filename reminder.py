@@ -156,3 +156,7 @@ class Reminder(BotPlugin):
                         "content": "Meeting in 5 minutes",
                     }
                 )
+
+    def activate(self):
+        super().activate()
+        self.start_poller(60, self.notify_for_daily_meeting)
