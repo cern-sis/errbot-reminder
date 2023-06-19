@@ -1,4 +1,4 @@
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import date, datetime, timedelta  # , timezone, time
 
 import pytz
 from errbot import BotPlugin, botcmd
@@ -100,63 +100,80 @@ class Reminder(BotPlugin):
             ]
         )
 
-    @botcmd
-    def notify_for_daily_meeting(self, msg, args):
-        stream = msg._from._room._id
-
-        client = self._bot.client
-
-        day_of_the_week = datetime.now(timezone).weekday()
-        current_time = datetime.now(timezone).replace(second=0, microsecond=0)
-        stream = "tools & services"
-
-        if day_of_the_week != 5 and day_of_the_week != 6:
-            if date.today().weekday() == 0 and self.is_sprint_planning():
-                meeting_time = time(17, 5)
-                topic = "sprint planning"
-
-            elif date.today().weekday() == 3 and not self.is_sprint_planning():
-                meeting_time = time(14, 45)
-                topic = "sprint review"
-
-            elif date.today().weekday() == 4 and not self.is_sprint_planning():
-                meeting_time = time(9, 30)
-                topic = "retrospective"
-
-            else:
-                meeting_time = time(9, 30)
-                topic = "daily"
-
-            meeting_datetime = datetime.combine(
-                datetime.now(timezone).date(), meeting_time
-            )
-
-            if (
-                current_time.hour == meeting_datetime.hour
-                and current_time.minute == meeting_datetime.minute - 15
-            ):
-                client.send_message(
-                    {
-                        "type": "stream",
-                        "to": stream,
-                        "topic": topic,
-                        "content": "TEST - Meeting in 15 minutes",
-                    }
-                )
-
-            if (
-                current_time.hour == meeting_datetime.hour
-                and current_time.minute == meeting_datetime.minute - 5
-            ):
-                client.send_message(
-                    {
-                        "type": "stream",
-                        "to": stream,
-                        "topic": topic,
-                        "content": "TEST - Meeting in 5 minutes",
-                    }
-                )
-
     def activate(self):
         super().activate()
-        self.start_poller(60, self.notify_for_daily_meeting)
+        self.start_poller(10, self.send_regular_message)
+
+    def send_regular_message(self):
+        stream = "sis"
+        topic = "errbot-reminder/8"
+        message = "TEST - automatic message"
+
+        self.send_message(stream, topic, message)
+
+    def send_message(self, stream, topic, content):
+        client = self._bot.client
+        client.send_message(
+            {"type": "stream", "to": stream, "topic": topic, "content": content}
+        )
+
+    # @botcmd
+    # def notify_for_daily_meeting(self, msg, args):
+    #     stream = msg._from._room._id
+
+    #     client = self._bot.client
+
+    #     day_of_the_week = datetime.now(timezone).weekday()
+    #     current_time = datetime.now(timezone).replace(second=0, microsecond=0)
+    #     stream = "tools & services"
+
+    #     if day_of_the_week != 5 and day_of_the_week != 6:
+    #         if date.today().weekday() == 0 and self.is_sprint_planning():
+    #             meeting_time = time(17, 5)
+    #             topic = "sprint planning"
+
+    #         elif date.today().weekday() == 3 and not self.is_sprint_planning():
+    #             meeting_time = time(14, 45)
+    #             topic = "sprint review"
+
+    #         elif date.today().weekday() == 4 and not self.is_sprint_planning():
+    #             meeting_time = time(9, 30)
+    #             topic = "retrospective"
+
+    #         else:
+    #             meeting_time = time(9, 30)
+    #             topic = "daily"
+
+    #         meeting_datetime = datetime.combine(
+    #             datetime.now(timezone).date(), meeting_time
+    #         )
+
+    #         if (
+    #             current_time.hour == meeting_datetime.hour
+    #             and current_time.minute == meeting_datetime.minute - 15
+    #         ):
+    #             client.send_message(
+    #                 {
+    #                     "type": "stream",
+    #                     "to": stream,
+    #                     "topic": topic,
+    #                     "content": "TEST - Meeting in 15 minutes",
+    #                 }
+    #             )
+
+    #         if (
+    #             current_time.hour == meeting_datetime.hour
+    #             and current_time.minute == meeting_datetime.minute - 5
+    #         ):
+    #             client.send_message(
+    #                 {
+    #                     "type": "stream",
+    #                     "to": stream,
+    #                     "topic": topic,
+    #                     "content": "TEST - Meeting in 5 minutes",
+    #                 }
+    #             )
+
+    # def activate(self):
+    #     super().activate()
+    #     self.start_poller(60, self.notify_for_daily_meeting)
