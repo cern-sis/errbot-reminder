@@ -24,7 +24,9 @@ def test_is_spring_planning():
 @freeze_time("2023-06-12")
 def test_next_planning():
     test_date = datetime(2023, 6, 12, 15, 32)
-    expected_result = datetime(2023, 6, 19, 15, 30).strftime("%Y-%m-%d %H:%M")
+    expected_result = datetime(2023, 6, 19, 15, 30).strftime(
+        "**%Y-%m-%d** at **%H:%M**"
+    )
 
     assert Reminder.next_occurance("Sprint planning", test_date) == expected_result
 
@@ -32,7 +34,9 @@ def test_next_planning():
 @freeze_time("2023-06-12")
 def test_next_review():
     test_date = datetime(2023, 6, 12, 15, 32)
-    expected_result = datetime(2023, 6, 15, 14, 45).strftime("%Y-%m-%d %H:%M")
+    expected_result = datetime(2023, 6, 15, 14, 45).strftime(
+        "**%Y-%m-%d** at **%H:%M**"
+    )
 
     assert Reminder.next_occurance("Sprint review", test_date) == expected_result
 
@@ -40,7 +44,7 @@ def test_next_review():
 @freeze_time("2023-06-12")
 def test_next_retrospective():
     test_date = datetime(2023, 6, 12, 15, 32)
-    expected_result = datetime(2023, 6, 16, 9, 30).strftime("%Y-%m-%d %H:%M")
+    expected_result = datetime(2023, 6, 16, 9, 30).strftime("**%Y-%m-%d** at **%H:%M**")
 
     assert Reminder.next_occurance("Sprint retrospective", test_date) == expected_result
 
@@ -49,20 +53,25 @@ def test_next_retrospective():
 def test_next_daily():
     test_date = datetime(2023, 6, 12, 15, 32)
 
-    expected_result = datetime(2023, 6, 13, 9, 30).strftime("%Y-%m-%d %H:%M")
+    expected_result = datetime(2023, 6, 13, 9, 30).strftime("**%Y-%m-%d** at **%H:%M**")
 
     assert Reminder.next_daily(test_date) == expected_result
 
 
 @freeze_time("2023-06-12")
 def test_reminder_next():
-    restrospective_content = datetime(2023, 6, 16, 9, 30)
+    planning_content = datetime(2023, 6, 19, 15, 30)
+    daily_content = datetime(2023, 6, 13, 9, 30)
+    review_content = datetime(2023, 6, 15, 14, 45)
+    restrospective_content = datetime(2023, 6, 16, 9, 30).strftime(
+        "**%Y-%m-%d** at **%H:%M**"
+    )
     expected_response = "\n".join(
         [
-            f"Next planning:{datetime(2023, 6, 19, 15, 30).strftime('%Y-%m-%d %H:%M')}",
-            f"Next daily: {datetime(2023, 6, 13, 9, 30).strftime('%Y-%m-%d %H:%M')}",
-            f"Next review: {datetime(2023, 6, 15, 14, 45).strftime('%Y-%m-%d %H:%M')}",
-            f"Next retrospective: {restrospective_content.strftime('%Y-%m-%d %H:%M')}",
+            f"Next planning: {planning_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
+            f"Next daily: {daily_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
+            f"Next review: {review_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
+            f"Next retrospective: {restrospective_content}",
         ]
     )
     assert Reminder.reminder_next(None, None, None) == expected_response
