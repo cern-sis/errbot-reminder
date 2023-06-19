@@ -100,7 +100,6 @@ class Reminder(BotPlugin):
             ]
         )
 
-    @botcmd
     def notify_for_daily_meeting(self, msg, args):
         stream = msg._from._room._id
 
@@ -156,3 +155,7 @@ class Reminder(BotPlugin):
                         "content": "Meeting in 5 minutes",
                     }
                 )
+
+    def activate(self):
+        super().activate()
+        self.start_poller(60, self.notify_for_daily_meeting())
