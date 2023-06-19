@@ -60,8 +60,7 @@ class Reminder(BotPlugin):
             next_occurance += delta_occurance
 
         if next_occurance > today:
-            next_occurance = str(next_occurance)
-            return next_occurance.strftime("%Y-%m-%d %H:%M")
+            return next_occurance.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @staticmethod
     def next_daily(today):
@@ -83,18 +82,20 @@ class Reminder(BotPlugin):
                 if next_daily.weekday() >= 3:
                     next_daily += timedelta(days=(7 - next_daily.weekday() + 1))
 
-        next_daily = str(next_daily)
-        return next_daily.strftime("%Y-%m-%d %H:%M")
+        return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @botcmd
     def reminder_next(self, msg, args):
         today = datetime.now()
+        next_planning = Reminder.next_occurance("Sprint planning", today)
+        next_daily = Reminder.next_daily(today)
+        next_review = Reminder.next_occurance("Sprint review", today)
         next_retrospective = Reminder.next_occurance("Sprint retrospective", today)
         return "\n".join(
             [
-                f"Next planning:{Reminder.next_occurance('Sprint planning', today)}",
-                f"Next daily: {Reminder.next_daily(today)}",
-                f"Next review: {Reminder.next_occurance('Sprint review', today)}",
+                f"Next planning: {next_planning}",
+                f"Next daily: {next_daily}",
+                f"Next review: {next_review}",
                 f"Next retrospective: {next_retrospective}",
             ]
         )
