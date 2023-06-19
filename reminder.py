@@ -7,7 +7,7 @@ from errbot import BotPlugin, botcmd
 # Sprint Planning --> If it's a Sprint planning, meeting at 15:30
 # Sprint review --> If it's a Sprint Review, meeting at 14:45
 
-#  -----------------
+#  ------------
 
 utc = pytz.timezone("UTC")
 now = utc.localize(datetime.utcnow())
