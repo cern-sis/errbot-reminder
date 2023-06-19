@@ -100,22 +100,22 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def activate(self):
-        super().activate()
-        self.start_poller(10, self.send_regular_message)
+    # def activate(self):
+    #     super().activate()
+    #     self.start_poller(10, self.send_regular_message)
 
-    def send_regular_message(self):
-        stream = "sis"
-        topic = "errbot-reminder/8"
-        message = "TEST - automatic message"
+    # def send_regular_message(self):
+    #     stream = "sis"
+    #     topic = "errbot-reminder/8"
+    #     message = "TEST - automatic message"
 
-        self.send_message(stream, topic, message)
+    #     self.send_message(stream, topic, message)
 
-    def send_message(self, stream, topic, content):
-        client = self._bot.client
-        client.send_message(
-            {"type": "stream", "to": stream, "topic": topic, "content": content}
-        )
+    # def send_message(self, stream, topic, content):
+    #     client = self._bot.client
+    #     client.send_message(
+    #         {"type": "stream", "to": stream, "topic": topic, "content": content}
+    #     )
 
     # @botcmd
     # def notify_for_daily_meeting(self, msg, args):
