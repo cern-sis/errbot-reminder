@@ -112,7 +112,7 @@ class Reminder(BotPlugin):
 
         if day_of_the_week != 5 and day_of_the_week != 6:
             if date.today().weekday() == 0 and self.is_sprint_planning():
-                meeting_time = time(17, 00)
+                meeting_time = time(17, 5)
                 # topic = "sprint planning"
 
             elif date.today().weekday() == 3 and not self.is_sprint_planning():
