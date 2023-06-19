@@ -60,6 +60,7 @@ class Reminder(BotPlugin):
             next_occurance += delta_occurance
 
         if next_occurance > today:
+            next_occurance = str(next_occurance)
             return next_occurance.strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
@@ -82,6 +83,7 @@ class Reminder(BotPlugin):
                 if next_daily.weekday() >= 3:
                     next_daily += timedelta(days=(7 - next_daily.weekday() + 1))
 
+        next_daily = str(next_daily)
         return next_daily.strftime("%Y-%m-%d %H:%M")
 
     @botcmd
