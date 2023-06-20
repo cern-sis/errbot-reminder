@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 15, 22)),
+        tz_cern.localize(datetime(2022, 3, 1, 15, 27)),
         timedelta(days=1),
     ),
 }
@@ -127,7 +127,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{to_time == no_minus_15}",
+                                "content": f"{to_time == no_minus_5}",
                             }
                         )
 
