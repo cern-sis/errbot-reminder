@@ -110,18 +110,28 @@ class Reminder(BotPlugin):
         client = self._bot.client
 
         today = tz_cern.localize(datetime.now())
+        weekday = today.weekday()
+
         stream = "test"
         topic = "daily"
 
-        if today.weekday() < 5:
-            client.send_message(
-                {
-                    "type": "stream",
-                    "to": stream,
-                    "topic": topic,
-                    "content": "TEST Meeting (auto, 3s, 3 times)",
-                }
-            )
+        if weekday < 5:
+            for meeting in EVENTS:
+                next_occurance = EVENTS.get(meeting)[0].astimezone(tz_cern)
+                delta_occurance = EVENTS.get(meeting)[1]
+
+                while next_occurance <= today:
+                    next_occurance += delta_occurance
+
+                if next_occurance > today:
+                    client.send_message(
+                        {
+                            "type": "stream",
+                            "to": stream,
+                            "topic": topic,
+                            "content": "TEST Meeting (auto, 3s, 3 times)",
+                        }
+                    )
 
     def activate(self):
         super().activate()
