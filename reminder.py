@@ -126,7 +126,7 @@ class Reminder(BotPlugin):
                             {
                                 "type": "stream",
                                 "to": stream,
-                                "topic": meet,
+                                "topic": f"{meet}",
                                 "content": "",
                             }
                         )
