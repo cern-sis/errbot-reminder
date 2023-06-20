@@ -119,6 +119,7 @@ class Reminder(BotPlugin):
                     next_occurance += delta_occurance
 
                 if next_occurance > today:
+                    a = next_occurance
                     if next_occurance.date() == today.date():
                         client.send_message(
                             {
@@ -128,14 +129,12 @@ class Reminder(BotPlugin):
                                 "content": "**Meeting in 15 minutes**",
                             }
                         )
-                        next_occurance = next_occurance  # .astimezone(tz_cern)
-                        today = today
                         client.send_message(
                             {
                                 "type": "stream",
                                 "to": stream,
                                 "topic": topic,
-                                "content": f"{today}-{next_occurance}",
+                                "content": f"{today}-{a}",
                             }
                         )
 
