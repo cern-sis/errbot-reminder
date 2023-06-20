@@ -86,6 +86,18 @@ class Reminder(BotPlugin):
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @botcmd
+    def test_cmd(self, msg, arg):
+        client = self._bot.client
+        client.send_message(
+            {
+                "type": "stream",
+                "to": "test",
+                "topic": "daily",
+                "content": "TEST OK",
+            }
+        )
+
+    @botcmd
     def reminder_next(self, msg, args):
         today = datetime.now()
         next_planning = Reminder.next_occurance("sprint planning", today)
@@ -103,64 +115,17 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(10, self.test_cmd())
+        self.start_poller(10, self.send_regular_message)
 
-    def test_cmd(self, msg, arg):
+    def send_regular_message(self):
+        stream = "tools & services"
+        topic = "sprint planning"
+        message = "TEST - automatic message"
+
+        self.send_message(stream, topic, message)
+
+    def send_message(self, stream, topic, content):
         client = self._bot.client
         client.send_message(
-            {
-                "type": "stream",
-                "to": "test",
-                "topic": "daily",
-                "content": "TEST OK",
-            }
+            {"type": "stream", "to": stream, "topic": topic, "content": content}
         )
-
-
-# def activate(self):
-#     super().activate()
-#     self.start_poller(60, self.notify_for_daily_meeting)
-
-# @botcmd
-# def notify_for_daily_meeting(self, msg, args):
-#     stream = msg._from._room._id
-#     client = self._bot.client
-
-#     stream = "test"
-
-#     today = tz_cern.localize(datetime.now())
-
-#     for event in EVENTS:
-#         next_occurance = EVENTS.get(event)[0].astimezone(tz_cern)
-#         delta_occurance = EVENTS.get(event)[1]
-
-#         if today.weekday() < 5:
-#             while next_occurance.date() < today.date():
-#                 next_occurance += delta_occurance
-
-#             if next_occurance.date() == today.date():
-#                 if next_occurance > today:
-
-
-#                     next_occurance = next_occurance.replace(second=0, microsecond=0)
-#                     today = today.replace(second=0, microsecond=0)
-
-#                     # if today == next_occurance - timedelta(minutes=15):
-#                     client.send_message(
-#                         {
-#                             "type": "stream",
-#                             "to": stream,
-#                             "topic": event,
-#                             "content": "TEST - Meeting in 15 minutes",
-#                         }
-#                     )
-
-#                     if today == next_occurance - timedelta(minutes=5):
-#                         client.send_message(
-#                             {
-#                                 "type": "stream",
-#                                 "to": "test",
-#                                 "topic": "daily",
-#                                 "content": "TEST - Meeting in 5 minutes",
-#                             }
-#                         )
