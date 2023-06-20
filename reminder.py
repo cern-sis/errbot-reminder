@@ -114,12 +114,12 @@ class Reminder(BotPlugin):
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
-                next_occurance = next_occurance.astimezone(tz_cern)
+                next_occurance = next_occurance.replace(second=0, microsecond=0)
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
                         # to_time = today.replace(second=0, microsecond=0).time()
-                        #  no_minus_15 = next_occurance - timedelta(minutes=15)
+                        # no_minus_15 = next_occurance - timedelta(minutes=15)
                         # no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
 
                         client.send_message(
@@ -130,26 +130,6 @@ class Reminder(BotPlugin):
                                 "content": f"{today, next_occurance}",
                             }
                         )
-
-                        # if to_time == no_minus_15:
-                        #     client.send_message(
-                        #         {
-                        #             "type": "stream",
-                        #             "to": "test",
-                        #             "topic": meet,
-                        #             "content": "Meeting in 15 minutes",
-                        #         }
-                        #     )
-
-                        # if to_time == no_minus_5:
-                        #     client.send_message(
-                        #         {
-                        #             "type": "stream",
-                        #             "to": "test",
-                        #             "topic": meet,
-                        #             "content": "Meeting in 5 minutes",
-                        #         }
-                        #     )
 
     def activate(self):
         super().activate()
