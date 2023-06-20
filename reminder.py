@@ -101,7 +101,8 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def test_cmd(self, msg, args):
+    @botcmd
+    def test_cmd(self):
         client = self._bot.client
 
         client.send_message(
@@ -109,10 +110,10 @@ class Reminder(BotPlugin):
                 "type": "stream",
                 "to": "test",
                 "topic": "daily",
-                "content": "TEST - Meeting in 5 minutes",
+                "content": "TEST Meeting",
             }
         )
 
-    def activate(self):
-        super(Reminder, self).activate()
-        self.start_poller(10, self.test_cmd)
+    # def activate(self):
+    #     super(Reminder, self).activate()
+    #     self.start_poller(10, self.test_cmd)
