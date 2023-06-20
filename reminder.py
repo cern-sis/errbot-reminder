@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 12, 44)),
+        tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
         timedelta(days=1),
     ),
 }
@@ -124,83 +124,14 @@ class Reminder(BotPlugin):
         stream = "test"
         topic = "daily"
 
-        today = tz_cern.localize(datetime.now())
-
         client.send_message(
             {
                 "type": "stream",
                 "to": stream,
                 "topic": topic,
-                "content": "FUNCTION OK",
+                "content": "Function launched",
             }
         )
-
-        for event in EVENTS:
-            next_occurance = EVENTS.get(event)[0]
-            delta_occurance = EVENTS.get(event)[1]
-            client.send_message(
-                {
-                    "type": "stream",
-                    "to": stream,
-                    "topic": topic,
-                    "content": "CONDITION 0 OK",
-                }
-            )
-
-            if today.weekday() < 5:
-                client.send_message(
-                    {
-                        "type": "stream",
-                        "to": stream,
-                        "topic": topic,
-                        "content": "CONDITION 1 OK",
-                    }
-                )
-
-                while next_occurance.date() < today.date():
-                    next_occurance += delta_occurance
-
-                client.send_message(
-                    {
-                        "type": "stream",
-                        "to": stream,
-                        "topic": topic,
-                        "content": "CONDITION 2 OK",
-                    }
-                )
-
-                if next_occurance.date() == today.date():
-                    client.send_message(
-                        {
-                            "type": "stream",
-                            "to": stream,
-                            "topic": topic,
-                            "content": "CONDITION 3 OK",
-                        }
-                    )
-
-                    if next_occurance > today:
-                        next_occurance = next_occurance.replace(second=0, microsecond=0)
-                        today = today.replace(second=0, microsecond=0)
-
-                        client.send_message(
-                            {
-                                "type": "stream",
-                                "to": stream,
-                                "topic": topic,
-                                "content": "CONDITION 4 OK",
-                            }
-                        )
-
-                        if today == next_occurance - timedelta(minutes=15):
-                            message = f"NEXT {event} in 15 minutes"
-
-                        if today == next_occurance - timedelta(minutes=5):
-                            message = f"NEXT {event} in 5 minutes"
-
-            client.send_message(
-                {"type": "stream", "to": stream, "topic": topic, "content": message}
-            )
 
 
 # def activate(self):
