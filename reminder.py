@@ -128,7 +128,9 @@ class Reminder(BotPlugin):
                                 "content": "**Meeting in 15 minutes**",
                             }
                         )
-                        next_occurance = next_occurance.replace(second=0, microsecond=0)
+                        next_occurance = next_occurance.replace(
+                            second=0, microsecond=0, tzinfo=tz_cern
+                        )
                         today = today.replace(second=0, microsecond=0)
 
                         client.send_message(
