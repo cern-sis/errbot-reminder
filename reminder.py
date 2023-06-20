@@ -107,9 +107,6 @@ class Reminder(BotPlugin):
         today = tz_cern.localize(datetime.now())
         weekday = today.weekday()
 
-        stream = "test"
-        # topic = "daily"
-
         if weekday < 5:
             for meet in EVENTS:
                 next_occurance = EVENTS.get(meet)[0]
@@ -125,9 +122,9 @@ class Reminder(BotPlugin):
                         client.send_message(
                             {
                                 "type": "stream",
-                                "to": stream,
+                                "to": "test",
                                 "topic": meet,
-                                "content": "Dynamic test successfull",
+                                "content": f"{next_occurance.time()} XX {today.time()}",
                             }
                         )
 
