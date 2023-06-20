@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 17, 10)),
+        tz_cern.localize(datetime(2022, 3, 1, 17, 15)),
         timedelta(days=1),
     ),
 }
@@ -116,16 +116,18 @@ class Reminder(BotPlugin):
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
-                        td = (next_occurance - timedelta(minutes=15)).time()
-                        client.send_message(
-                            {
-                                "type": "stream",
-                                "to": "test",
-                                "topic": meet,
-                                "content": f"{today.time() == td}",
-                            }
-                        )
+                        no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
+
+                        if no_minus_15 == today.time():
+                            client.send_message(
+                                {
+                                    "type": "stream",
+                                    "to": "test",
+                                    "topic": meet,
+                                    "content": "Meeting in 15 minutes",
+                                }
+                            )
 
     def activate(self):
         super().activate()
-        self.start_poller(1, self.test_cmd, times=1)
+        self.start_poller(60, self.test_cmd)
