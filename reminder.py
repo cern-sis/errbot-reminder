@@ -105,10 +105,11 @@ class Reminder(BotPlugin):
         super().activate()
         self.start_poller(10, self.test_cmd)
 
+    @botcmd
     def test_cmd(self, msg, arg):
-        # client = self._bot  # ._client
+        client = self._bot  # ._client
 
-        self.send(
+        client.send(
             {
                 "type": "stream",
                 "to": "test",
