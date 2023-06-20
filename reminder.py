@@ -87,7 +87,7 @@ class Reminder(BotPlugin):
 
     @botcmd
     def reminder_next(self, msg, args):
-        today = datetime.now()
+        today = datetime.now(tz=tz_cern)
         next_planning = Reminder.next_occurance("sprint planning", today)
         next_daily = Reminder.next_daily(today)
         next_review = Reminder.next_occurance("review", today)
@@ -104,7 +104,7 @@ class Reminder(BotPlugin):
     def test_cmd(self):
         client = self._bot.client
 
-        today = datetime.now(tz_cern)
+        today = datetime.now()
         today = tz_cern.localize(today)
         weekday = today.weekday()
 
