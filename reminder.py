@@ -106,15 +106,6 @@ class Reminder(BotPlugin):
         today = datetime.now().astimezone(tz_cern)
         weekday = today.weekday()
 
-        client.send_message(
-            {
-                "type": "stream",
-                "to": "test",
-                "topic": "daily",
-                "content": f"{today}",
-            }
-        )
-
         if weekday < 5:
             for meet in EVENTS:
                 next_occurance = EVENTS.get(meet)[0]
@@ -127,12 +118,13 @@ class Reminder(BotPlugin):
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
+                        td = today.replace(second=0, microsecond=0).time()
                         client.send_message(
                             {
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{next_occurance.time()} XX {today.time()}",
+                                "content": f"{next_occurance.time()} XX {td}",
                             }
                         )
 
