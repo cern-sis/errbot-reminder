@@ -118,7 +118,6 @@ class Reminder(BotPlugin):
         self.start_poller(10, self.send_regular_message)
 
     def send_regular_message(self, msg, arg):
-        stream = msg._from._room._id
         client = self._bot.client
 
         stream = "test"
