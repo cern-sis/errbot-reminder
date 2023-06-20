@@ -134,7 +134,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": stream,
                                 "topic": topic,
-                                "content": f"{today}-{a}",
+                                "content": f"{today} XX {a}",
                             }
                         )
 
