@@ -128,6 +128,7 @@ class Reminder(BotPlugin):
                                     "content": "Meeting in 15 minutes",
                                 }
                             )
+
                         if no_minus_5 == today.time():
                             client.send_message(
                                 {
