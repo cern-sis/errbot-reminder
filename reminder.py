@@ -102,11 +102,10 @@ class Reminder(BotPlugin):
         )
 
     def activate(self):
-        super().activate()
+        super(Reminder, self).activate()
         self.start_poller(10, self.test_cmd)
 
     def test_cmd(self, msg, args):
-        # stream = msg._from._room._id
         client = self._bot.client
 
         client.send_message(
