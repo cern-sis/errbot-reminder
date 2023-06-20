@@ -114,46 +114,48 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def activate(self):
-        super().activate()
-        self.start_poller(10, self.send_regular_message)
 
-    def send_regular_message(self):
-        stream = "test"
-        topic = "daily"
-        message = "TEST - automatic message"
+#
+# def activate(self):
+#     super().activate()
+#     self.start_poller(10, self.send_regular_message)
 
-        self.send_message(stream, topic, message)
+# def send_regular_message(self):
+#     stream = "test"
+#     topic = "daily"
+#     message = "TEST - automatic message"
 
-    def send_message(self, stream, topic, content):
-        client = self._bot.client
-        client.send_message(
-            {"type": "stream", "to": stream, "topic": topic, "content": content}
-        )
+#     self.send_message(stream, topic, message)
 
-    # def activate(self):
-    #     super().activate()
-    #     self.start_poller(60, self.notify_for_daily_meeting)
+# def send_message(self, stream, topic, content):
+#     client = self._bot.client
+#     client.send_message(
+#         {"type": "stream", "to": stream, "topic": topic, "content": content}
+#     )
 
-    # @botcmd
-    # def notify_for_daily_meeting(self, msg, args):
-    #     stream = msg._from._room._id
-    #     client = self._bot.client
+# def activate(self):
+#     super().activate()
+#     self.start_poller(60, self.notify_for_daily_meeting)
 
-    #     stream = "test"
+# @botcmd
+# def notify_for_daily_meeting(self, msg, args):
+#     stream = msg._from._room._id
+#     client = self._bot.client
 
-    #     today = tz_cern.localize(datetime.now())
+#     stream = "test"
 
-    #     for event in EVENTS:
-    #         next_occurance = EVENTS.get(event)[0].astimezone(tz_cern)
-    #         delta_occurance = EVENTS.get(event)[1]
+#     today = tz_cern.localize(datetime.now())
 
-    #         if today.weekday() < 5:
-    #             while next_occurance.date() < today.date():
-    #                 next_occurance += delta_occurance
+#     for event in EVENTS:
+#         next_occurance = EVENTS.get(event)[0].astimezone(tz_cern)
+#         delta_occurance = EVENTS.get(event)[1]
 
-    #             if next_occurance.date() == today.date():
-    #                 if next_occurance > today:
+#         if today.weekday() < 5:
+#             while next_occurance.date() < today.date():
+#                 next_occurance += delta_occurance
+
+#             if next_occurance.date() == today.date():
+#                 if next_occurance > today:
 
 
 #                     next_occurance = next_occurance.replace(second=0, microsecond=0)
