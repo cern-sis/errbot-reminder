@@ -117,3 +117,7 @@ class Reminder(BotPlugin):
                 "content": "TEST Meeting (auto)",
             }
         )
+
+    def activate(self):
+        super(Reminder, self).activate()
+        self.start_poller(10, self.test_cmd)
