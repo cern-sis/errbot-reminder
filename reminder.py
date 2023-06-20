@@ -17,7 +17,7 @@ now.astimezone(tz_cern)
 
 EVENTS = {
     "sprint planning": (
-        datetime(2022, 2, 28, 15, 30),
+        tz_cern.localize(datetime(2022, 2, 28, 15, 30)),
         timedelta(weeks=2),
     ),
     "review": (
@@ -114,7 +114,7 @@ class Reminder(BotPlugin):
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
-                # next_occurance = next_occurance.astimezone(tz_cern)
+                next_occurance = next_occurance.astimezone(tz_cern)
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
