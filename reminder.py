@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 10, 14)),
+        tz_cern.localize(datetime(2022, 3, 1, 10, 20)),
         timedelta(days=1),
     ),
 }
@@ -120,7 +120,7 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(60, self.notify_for_daily_meeting)
+        self.start_poller(30, self.notify_for_daily_meeting)
 
     @botcmd
     def notify_for_daily_meeting(self, msg, args):
@@ -129,10 +129,10 @@ class Reminder(BotPlugin):
 
         stream = "test"
 
-        today = datetime.now()
+        today = tz_cern.localize(datetime.now())
 
         for event in EVENTS:
-            next_occurance = EVENTS.get(event)[0]
+            next_occurance = EVENTS.get(event)[0].astimezone(tz_cern)
             delta_occurance = EVENTS.get(event)[1]
 
             if today.weekday() < 5:
