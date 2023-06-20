@@ -127,7 +127,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{no_minus_5, no_minus_15, to_time}",
+                                "content": f"{to_time-no_minus_15}",
                             }
                         )
 
