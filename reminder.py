@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 15, 30)),
+        (datetime(2022, 3, 1, 15, 30)),
         timedelta(days=1),
     ),
 }
@@ -104,8 +104,7 @@ class Reminder(BotPlugin):
     def test_cmd(self):
         client = self._bot.client
 
-        # today = tz_cern.localize(datetime.now())
-        today = datetime.now()
+        today = tz_cern.localize(datetime.now())
         weekday = today.weekday()
 
         stream = "test"
