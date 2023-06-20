@@ -113,10 +113,10 @@ class Reminder(BotPlugin):
             }
         )
 
-    def activate(self):
-        super().activate()
-        self.start_poller(10, self.send_regular_message)
-
+    # def activate(self):
+    #     super().activate()
+    #     self.start_poller(10, self.send_regular_message)
+    #
     def send_regular_message(self):
         stream = "test"
         topic = "daily"
