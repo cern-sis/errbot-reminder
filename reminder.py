@@ -114,8 +114,6 @@ class Reminder(BotPlugin):
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
-                # next_occurance = next_occurance.astimezone(tz_cern)
-
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
                         # to_time = today.replace(second=0, microsecond=0).time()
@@ -127,7 +125,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{today, next_occurance}",
+                                "content": f"{today.time(), next_occurance.time()}",
                             }
                         )
 
