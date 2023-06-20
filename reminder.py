@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 10, 43)),
+        tz_cern.localize(datetime(2022, 3, 1, 11, 19)),
         timedelta(days=1),
     ),
 }
@@ -113,10 +113,10 @@ class Reminder(BotPlugin):
             }
         )
 
-    # def activate(self):
-    #     super().activate()
-    #     self.start_poller(10, self.send_regular_message)
-    #
+    def activate(self):
+        super().activate()
+        self.start_poller(10, self.send_regular_message)
+
     def send_regular_message(self):
         stream = "test"
         topic = "daily"
@@ -124,25 +124,23 @@ class Reminder(BotPlugin):
         today = tz_cern.localize(datetime.now())
 
         for event in EVENTS:
-            next_occurance = EVENTS.get(event)[0].astimezone(tz_cern)
+            next_occurance = EVENTS.get(event)[0]
             delta_occurance = EVENTS.get(event)[1]
+
             if today.weekday() < 5:
                 while next_occurance.date() < today.date():
                     next_occurance += delta_occurance
 
                 if next_occurance.date() == today.date():
                     if next_occurance > today:
-                        next_occurance = next_occurance.strftime(
-                            "**%Y-%m-%d** at **%H:%M**"
-                        )
+                        next_occurance = next_occurance.replace(second=0, microsecond=0)
                         today = today.replace(second=0, microsecond=0)
 
-                        message = f"NEXT {event} : {next_occurance}"
+                        if today == next_occurance - timedelta(minutes=15):
+                            message = f"NEXT {event} in 15 minutes"
 
-                        # if today == next_occurance - timedelta(minutes=15):
-                        #     message = f"NEXT {event} in 15 minutes"
-                        # if today == next_occurance - timedelta(minutes=5):
-                        #     message = f"NEXT {event} in 5 minutes"
+                        if today == next_occurance - timedelta(minutes=5):
+                            message = f"NEXT {event} in 5 minutes"
 
         self.send_message(stream, topic, message)
 
