@@ -114,10 +114,10 @@ class Reminder(BotPlugin):
                 "type": "stream",
                 "to": "test",
                 "topic": "daily",
-                "content": "TEST Meeting (auto)",
+                "content": "TEST Meeting (auto 3 times)",
             }
         )
 
     def activate(self):
         super().activate()
-        self.start_poller(10, self.test_cmd)
+        self.start_poller(10, self.test_cmd, times=3)
