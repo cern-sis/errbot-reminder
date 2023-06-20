@@ -118,7 +118,7 @@ class Reminder(BotPlugin):
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
-                        no_time = (next_occurance - timedelta(minutes=15)).time()
+                        no_time = (next_occurance.time()) - timedelta(minutes=15)
                         to_time = today.replace(second=0, microsecond=0).time()
 
                         client.send_message(
