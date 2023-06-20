@@ -116,9 +116,9 @@ class Reminder(BotPlugin):
         topic = "daily"
 
         if weekday < 5:
-            for meeting in EVENTS:
-                next_occurance = EVENTS.get(meeting)[0].astimezone(tz_cern)
-                delta_occurance = EVENTS.get(meeting)[1]
+            for meet in EVENTS:
+                next_occurance = EVENTS.get(meet)[0].astimezone(tz_cern)
+                delta_occurance = EVENTS.get(meet)[1]
 
                 while next_occurance <= today:
                     next_occurance += delta_occurance
@@ -129,7 +129,7 @@ class Reminder(BotPlugin):
                             "type": "stream",
                             "to": stream,
                             "topic": topic,
-                            "content": "TEST Meeting (auto, 3s, 3 times)",
+                            "content": f"**Next meeting:** {meet} --> {next_occurance}",
                         }
                     )
 
