@@ -104,8 +104,8 @@ class Reminder(BotPlugin):
     def test_cmd(self):
         client = self._bot.client
 
-        today = datetime.now(tz_cern)
-        today = tz_cern.localize(today)
+        today = datetime.now()
+        today = today.astimezone(tz_cern)
         weekday = today.weekday()
 
         client.send_message(
