@@ -135,4 +135,4 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(3, self.test_cmd, times=3)
+        self.start_poller(3, self.test_cmd, times=1)
