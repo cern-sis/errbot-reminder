@@ -128,7 +128,7 @@ class Reminder(BotPlugin):
                                 "content": "**Meeting in 15 minutes**",
                             }
                         )
-                        next_occurance = next_occurance.astimezone(tz_cern)
+                        next_occurance = next_occurance  # .astimezone(tz_cern)
                         today = today
                         client.send_message(
                             {
