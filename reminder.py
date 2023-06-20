@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 15, 38)),
+        tz_cern.localize(datetime(2022, 3, 1, 15, 40)),
         timedelta(days=1),
     ),
 }
