@@ -135,10 +135,12 @@ class Reminder(BotPlugin):
                         next_occurance = next_occurance.replace(second=0, microsecond=0)
                         today = today.replace(second=0, microsecond=0)
 
-                        if today == next_occurance - timedelta(minutes=15):
-                            message = f"NEXT {event} in 15 minutes"
-                        if today == next_occurance - timedelta(minutes=5):
-                            message = f"NEXT {event} in 5 minutes"
+                        message = f"NEXT {event} : {next_occurance}"
+
+                        # if today == next_occurance - timedelta(minutes=15):
+                        #     message = f"NEXT {event} in 15 minutes"
+                        # if today == next_occurance - timedelta(minutes=5):
+                        #     message = f"NEXT {event} in 5 minutes"
 
         self.send_message(stream, topic, message)
 
