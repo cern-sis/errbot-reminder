@@ -17,7 +17,7 @@ now.astimezone(tz_cern)
 
 EVENTS = {
     "sprint planning": (
-        tz_cern.localize(datetime(2022, 2, 28, 15, 30)),
+        datetime(2022, 2, 28, 15, 30),
         timedelta(weeks=2),
     ),
     "review": (
