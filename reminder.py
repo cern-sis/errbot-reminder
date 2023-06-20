@@ -112,11 +112,13 @@ class Reminder(BotPlugin):
 
         if weekday < 5:
             for meet in EVENTS:
-                next_occurance = tz_cern.localize(EVENTS.get(meet)[0])
+                next_occurance = EVENTS.get(meet)[0]
                 delta_occurance = EVENTS.get(meet)[1]
 
                 while next_occurance <= today:
                     next_occurance += delta_occurance
+
+                next_occurance = next_occurance.astimezone(tz_cern)
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
