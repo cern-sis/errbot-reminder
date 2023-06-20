@@ -119,15 +119,15 @@ class Reminder(BotPlugin):
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
                         to_time = today.replace(second=0, microsecond=0)
-                        # no_minus_15 = next_occurance - timedelta(minutes=15)
-                        # no_minus_5 = next_occurance - timedelta(minutes=5)
+                        no_minus_15 = next_occurance - timedelta(minutes=15)
+                        no_minus_5 = next_occurance - timedelta(minutes=5)
                         a = type(to_time)
                         client.send_message(
                             {
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{a}",
+                                "content": f"{a, to_time, no_minus_15, no_minus_5}",
                             }
                         )
 
