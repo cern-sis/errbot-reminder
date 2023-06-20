@@ -109,7 +109,7 @@ class Reminder(BotPlugin):
                 "type": "stream",
                 "to": "test",
                 "topic": "daily",
-                "content": "TEST OK",
+                "content": "  XTEST OK",
             }
         )
 
