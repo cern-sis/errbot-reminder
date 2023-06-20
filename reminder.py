@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 15, 40)),
+        tz_cern.localize(datetime(2022, 3, 1, 15, 43)),
         timedelta(days=1),
     ),
 }
@@ -122,14 +122,14 @@ class Reminder(BotPlugin):
                         no_minus_15 = next_occurance - timedelta(minutes=15)
                         no_minus_5 = next_occurance - timedelta(minutes=5)
 
-                        # client.send_message(
-                        #     {
-                        #         "type": "stream",
-                        #         "to": "test",
-                        #         "topic": meet,
-                        #         "content": f"{to_time, no_minus_15, no_minus_5}",
-                        #     }
-                        # )
+                        client.send_message(
+                            {
+                                "type": "stream",
+                                "to": "test",
+                                "topic": meet,
+                                "content": f"{to_time == no_minus_5}",
+                            }
+                        )
 
                         if to_time == no_minus_15:
                             client.send_message(
