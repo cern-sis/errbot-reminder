@@ -102,7 +102,7 @@ class Reminder(BotPlugin):
         )
 
     @botcmd
-    def test_cmd(self):
+    def test_cmd(self, msg, arg):
         client = self._bot.client
 
         client.send_message(
