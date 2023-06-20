@@ -126,8 +126,8 @@ class Reminder(BotPlugin):
                             {
                                 "type": "stream",
                                 "to": stream,
-                                "topic": f"{meet}",
-                                "content": "",
+                                "topic": meet,
+                                "content": "Dynamic test successfull",
                             }
                         )
 
