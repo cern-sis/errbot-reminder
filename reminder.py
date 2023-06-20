@@ -120,14 +120,14 @@ class Reminder(BotPlugin):
     def send_regular_message(self, msg, arg):
         client = self._bot.client
 
-        stream = "test"
-        topic = "daily"
+        # stream = "test"
+        # topic = "daily"
 
         client.send_message(
             {
                 "type": "stream",
-                "to": stream,
-                "topic": topic,
+                "to": "test",
+                "topic": "daily",
                 "content": "Function launched",
             }
         )
