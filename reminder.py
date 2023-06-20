@@ -103,33 +103,22 @@ class Reminder(BotPlugin):
 
     def test_cmd(self):
         client = self._bot.client
-        today = datetime.now().astimezone(tz_cern)
+        today = datetime.now().replace(second=0, microsecond=0)
         weekday = today.weekday()
 
         if weekday < 5:
             for meet in EVENTS:
                 next_occurance = EVENTS.get(meet)[0]
-                delta_occurance = EVENTS.get(meet)[1]
+                # delta_occurance = EVENTS.get(meet)[1]
 
-                while next_occurance <= today:
-                    next_occurance += delta_occurance
-
-                next_occurance = next_occurance.replace(tzinfo=tz_cern)
-
-                if next_occurance > today:
-                    if next_occurance.date() == today.date():
-                        # to_time = today.replace(second=0, microsecond=0).time()
-                        # no_minus_15 = next_occurance - timedelta(minutes=15)
-                        # no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
-
-                        client.send_message(
-                            {
-                                "type": "stream",
-                                "to": "test",
-                                "topic": meet,
-                                "content": f"{today, next_occurance}",
-                            }
-                        )
+            client.send_message(
+                {
+                    "type": "stream",
+                    "to": "test",
+                    "topic": meet,
+                    "content": f"{today, next_occurance}",
+                }
+            )
 
     def activate(self):
         super().activate()
