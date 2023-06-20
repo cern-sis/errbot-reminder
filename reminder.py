@@ -115,16 +115,16 @@ class Reminder(BotPlugin):
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
-                # next_occurance = next_occurance.astimezone(tz_cern)
+                next_occu = next_occurance.astimezone(tz_cern)
 
-                if next_occurance > today:
-                    if next_occurance.date() == today.date():
+                if next_occu > today:
+                    if next_occu.date() == today.date():
                         client.send_message(
                             {
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{next_occurance.time()} XX {today.time()}",
+                                "content": f"{next_occu.time()} XX {today.time()}",
                             }
                         )
 
