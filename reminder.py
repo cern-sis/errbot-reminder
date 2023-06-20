@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 11, 32)),
+        tz_cern.localize(datetime(2022, 3, 1, 13, 30)),
         timedelta(days=1),
     ),
 }
@@ -139,7 +139,9 @@ class Reminder(BotPlugin):
                         next_occurance = next_occurance.replace(second=0, microsecond=0)
                         today = today.replace(second=0, microsecond=0)
 
-                        if today == next_occurance - timedelta(minutes=15):
+                        if (
+                            today.hour < next_occurance.hour
+                        ):  # == next_occurance - timedelta(minutes=15):
                             message = f"NEXT {event} in 15 minutes"
 
                         if today == next_occurance - timedelta(minutes=5):
