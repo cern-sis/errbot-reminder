@@ -103,9 +103,7 @@ class Reminder(BotPlugin):
 
     def test_cmd(self):
         client = self._bot.client
-
-        today = datetime.now()
-        today = today.astimezone(tz_cern)
+        today = datetime.now().astimezone(tz_cern)
         weekday = today.weekday()
 
         client.send_message(
