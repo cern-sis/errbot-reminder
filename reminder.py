@@ -104,7 +104,7 @@ class Reminder(BotPlugin):
     def test_cmd(self):
         client = self._bot.client
 
-        today = datetime.now()
+        today = datetime.now(tz_cern)
         today = tz_cern.localize(today)
         weekday = today.weekday()
 
@@ -134,7 +134,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{next_occurance.time()} XX {today}",
+                                "content": f"{next_occurance.time()} XX {today.time()}",
                             }
                         )
 
