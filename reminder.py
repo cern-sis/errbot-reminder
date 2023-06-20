@@ -108,7 +108,7 @@ class Reminder(BotPlugin):
         weekday = today.weekday()
 
         stream = "test"
-        topic = "daily"
+        # topic = "daily"
 
         if weekday < 5:
             for meet in EVENTS:
@@ -126,8 +126,8 @@ class Reminder(BotPlugin):
                             {
                                 "type": "stream",
                                 "to": stream,
-                                "topic": topic,
-                                "content": f"{today} XX {next_occurance}",
+                                "topic": meet,
+                                "content": "",
                             }
                         )
 
