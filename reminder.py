@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 10, 20)),
+        tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
         timedelta(days=1),
     ),
 }
@@ -86,6 +86,19 @@ class Reminder(BotPlugin):
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @botcmd
+    def test_cmd(self, msg, arg):
+        # stream = msg._from._room._id
+        client = self._bot.client
+        client.send_message(
+            {
+                "type": "stream",
+                "to": "test",
+                "topic": "daily",
+                "content": "TEST OK",
+            }
+        )
+
+    @botcmd
     def reminder_next(self, msg, args):
         today = datetime.now()
         next_planning = Reminder.next_occurance("sprint planning", today)
@@ -120,7 +133,7 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(30, self.notify_for_daily_meeting)
+        self.start_poller(60, self.notify_for_daily_meeting)
 
     @botcmd
     def notify_for_daily_meeting(self, msg, args):
