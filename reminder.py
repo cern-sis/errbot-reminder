@@ -105,9 +105,8 @@ class Reminder(BotPlugin):
         super().activate()
         self.start_poller(10, self.test_cmd)
 
-    @botcmd
     def test_cmd(self, msg, arg):
-        client = self._bot.client
+        client = self._bot  # .client
 
         client.send_message(
             {
