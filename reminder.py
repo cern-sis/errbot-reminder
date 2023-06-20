@@ -114,7 +114,7 @@ class Reminder(BotPlugin):
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
-                next_occurance = next_occurance.replace(tzinfo=today.tzinfo)
+                next_occurance = next_occurance.replace(tzinfo=tz_cern)
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
