@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        datetime(2022, 3, 1, 15, 30),
+        tz_cern.localize(datetime(2022, 3, 1, 15, 30)),
         timedelta(days=1),
     ),
 }
@@ -112,7 +112,7 @@ class Reminder(BotPlugin):
 
         if weekday < 5:
             for meet in EVENTS:
-                next_occurance = (EVENTS.get(meet)[0]).astimezone(tz_cern)
+                next_occurance = EVENTS.get(meet)[0].astimezone(tz_cern)
                 delta_occurance = EVENTS.get(meet)[1]
 
                 while next_occurance <= today:
@@ -128,11 +128,8 @@ class Reminder(BotPlugin):
                                 "content": "**Meeting in 15 minutes**",
                             }
                         )
-                        next_occurance = next_occurance.replace(
-                            second=0, microsecond=0
-                        )  # .astimezone(tz_cern)
-                        today = today.replace(second=0, microsecond=0)
-
+                        next_occurance = next_occurance.astimezone(tz_cern)
+                        today = today
                         client.send_message(
                             {
                                 "type": "stream",
