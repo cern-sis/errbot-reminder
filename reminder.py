@@ -121,7 +121,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{today.time()-timedelta(minutes=15)}"
+                                "content": f"{(today-timedelta(minutes=15)).time()}"
                                 # "content": f"{today.time() == next_occurance.time()}",
                             }
                         )
