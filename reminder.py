@@ -110,13 +110,15 @@ class Reminder(BotPlugin):
         client = self._bot.client
 
         today = tz_cern.localize(datetime.now())
+        stream = "test"
+        topic = "daily"
 
         if today.weekday() < 5:
             client.send_message(
                 {
                     "type": "stream",
-                    "to": "test",
-                    "topic": "daily",
+                    "to": stream,
+                    "topic": topic,
                     "content": "TEST Meeting (auto, 3s, 3 times)",
                 }
             )
