@@ -129,8 +129,8 @@ class Reminder(BotPlugin):
                             }
                         )
                         next_occurance = next_occurance.replace(
-                            second=0, microsecond=0, tzinfo=tz_cern
-                        )
+                            second=0, microsecond=0
+                        ).astimezone(tz_cern)
                         today = today.replace(second=0, microsecond=0)
 
                         client.send_message(
