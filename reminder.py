@@ -122,6 +122,15 @@ class Reminder(BotPlugin):
                         no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
                         no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
 
+                        client.send_message(
+                            {
+                                "type": "stream",
+                                "to": "test",
+                                "topic": meet,
+                                "content": f"{no_minus_5, no_minus_15, to_time}",
+                            }
+                        )
+
                         if to_time == no_minus_15:
                             client.send_message(
                                 {
