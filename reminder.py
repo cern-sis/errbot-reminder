@@ -132,7 +132,9 @@ class Reminder(BotPlugin):
 
                 if next_occurance.date() == today.date():
                     if next_occurance > today:
-                        next_occurance = next_occurance.replace(second=0, microsecond=0)
+                        next_occurance = next_occurance.strftime(
+                            "**%Y-%m-%d** at **%H:%M**"
+                        )
                         today = today.replace(second=0, microsecond=0)
 
                         message = f"NEXT {event} : {next_occurance}"
