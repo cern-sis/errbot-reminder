@@ -105,7 +105,6 @@ class Reminder(BotPlugin):
     #     super().activate()
     #     self.start_poller(1, self.test_cmd, times=3)
 
-    @botcmd
     def test_cmd(self):
         client = self._bot.client
 
@@ -117,10 +116,8 @@ class Reminder(BotPlugin):
 
         if weekday < 5:
             for meet in EVENTS:
-                next_occurance = EVENTS.get(meet)[0]
+                next_occurance = EVENTS.get(meet)[0].astimezone(tz_cern)
                 delta_occurance = EVENTS.get(meet)[1]
-
-                next_occurance = tz_cern.localize(next_occurance)
 
                 while next_occurance <= today:
                     next_occurance += delta_occurance
