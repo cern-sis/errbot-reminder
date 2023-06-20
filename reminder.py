@@ -109,15 +109,18 @@ class Reminder(BotPlugin):
     def test_cmd(self):
         client = self._bot.client
 
-        client.send_message(
-            {
-                "type": "stream",
-                "to": "test",
-                "topic": "daily",
-                "content": "TEST Meeting (auto 3 times)",
-            }
-        )
+        today = tz_cern.localize(datetime.now())
+
+        if today.weekday() < 5:
+            client.send_message(
+                {
+                    "type": "stream",
+                    "to": "test",
+                    "topic": "daily",
+                    "content": "TEST Meeting (auto, 3s, 3 times)",
+                }
+            )
 
     def activate(self):
         super().activate()
-        self.start_poller(10, self.test_cmd, times=3)
+        self.start_poller(3, self.test_cmd, times=3)
