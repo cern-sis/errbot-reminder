@@ -115,6 +115,15 @@ class Reminder(BotPlugin):
                 next_occurance = EVENTS.get(meet)[0].astimezone(tz_cern)
                 delta_occurance = EVENTS.get(meet)[1]
 
+                client.send_message(
+                    {
+                        "type": "stream",
+                        "to": stream,
+                        "topic": topic,
+                        "content": f" XX{today}-{next_occurance}",
+                    }
+                )
+
                 while next_occurance <= today:
                     next_occurance += delta_occurance
 
