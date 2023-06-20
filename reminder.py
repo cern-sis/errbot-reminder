@@ -86,18 +86,6 @@ class Reminder(BotPlugin):
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @botcmd
-    def test_cmd(self, msg, arg):
-        client = self._bot.client
-        client.send_message(
-            {
-                "type": "stream",
-                "to": "test",
-                "topic": "daily",
-                "content": "TEST OK",
-            }
-        )
-
-    @botcmd
     def reminder_next(self, msg, args):
         today = datetime.now()
         next_planning = Reminder.next_occurance("sprint planning", today)
@@ -113,19 +101,16 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def activate(self):
-        super().activate()
-        self.start_poller(10, self.send_regular_message)
-
-    def send_regular_message(self):
-        stream = "test"
-        topic = "daily"
-        message = "TEST - automatic message"
-
-        self.send_message(stream, topic, message)
-
-    def send_message(self, stream, topic, content):
+    @botcmd
+    def notify_for_daily_meeting(self, msg, args):
+        # stream = msg._from._room._id
         client = self._bot.client
+
         client.send_message(
-            {"type": "stream", "to": stream, "topic": topic, "content": content}
+            {
+                "type": "stream",
+                "to": "test",
+                "topic": "daily",
+                "content": "TEST - Meeting in 5 minutes",
+            }
         )
