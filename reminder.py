@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 16, 51)),
+        tz_cern.localize(datetime(2022, 3, 1, 17, 10)),
         timedelta(days=1),
     ),
 }
@@ -116,13 +116,13 @@ class Reminder(BotPlugin):
 
                 if next_occurance > today:
                     if next_occurance.date() == today.date():
+                        td = (next_occurance - timedelta(minutes=15)).time()
                         client.send_message(
                             {
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{(today-timedelta(minutes=15)).time()}"
-                                # "content": f"{today.time() == next_occurance.time()}",
+                                "content": f"{today.time() == td}",
                             }
                         )
 
