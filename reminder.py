@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 15, 33)),
+        tz_cern.localize(datetime(2022, 3, 1, 15, 38)),
         timedelta(days=1),
     ),
 }
@@ -121,35 +121,35 @@ class Reminder(BotPlugin):
                         to_time = today.replace(second=0, microsecond=0)
                         no_minus_15 = next_occurance - timedelta(minutes=15)
                         no_minus_5 = next_occurance - timedelta(minutes=5)
-                        a = type(to_time)
-                        client.send_message(
-                            {
-                                "type": "stream",
-                                "to": "test",
-                                "topic": meet,
-                                "content": f"{a, to_time, no_minus_15, no_minus_5}",
-                            }
-                        )
 
-                        # if to_time == no_minus_15:
-                        #     client.send_message(
-                        #         {
-                        #             "type": "stream",
-                        #             "to": "test",
-                        #             "topic": meet,
-                        #             "content": "Meeting in 15 minutes",
-                        #         }
-                        #     )
+                        # client.send_message(
+                        #     {
+                        #         "type": "stream",
+                        #         "to": "test",
+                        #         "topic": meet,
+                        #         "content": f"{to_time, no_minus_15, no_minus_5}",
+                        #     }
+                        # )
 
-                        # if to_time == no_minus_5:
-                        #     client.send_message(
-                        #         {
-                        #             "type": "stream",
-                        #             "to": "test",
-                        #             "topic": meet,
-                        #             "content": "Meeting in 5 minutes",
-                        #         }
-                        #     )
+                        if to_time == no_minus_15:
+                            client.send_message(
+                                {
+                                    "type": "stream",
+                                    "to": "test",
+                                    "topic": meet,
+                                    "content": "Meeting in 15 minutes",
+                                }
+                            )
+
+                        if to_time == no_minus_5:
+                            client.send_message(
+                                {
+                                    "type": "stream",
+                                    "to": "test",
+                                    "topic": meet,
+                                    "content": "Meeting in 5 minutes",
+                                }
+                            )
 
     def activate(self):
         super().activate()
