@@ -109,7 +109,7 @@ class Reminder(BotPlugin):
                 "type": "stream",
                 "to": "test",
                 "topic": "daily",
-                "content": "  XTEST OK",
+                "content": "TEST OK",
             }
         )
 
@@ -126,9 +126,26 @@ class Reminder(BotPlugin):
 
         today = tz_cern.localize(datetime.now())
 
+        client.send_message(
+            {
+                "type": "stream",
+                "to": stream,
+                "topic": topic,
+                "content": "FUNCTION OK",
+            }
+        )
+
         for event in EVENTS:
             next_occurance = EVENTS.get(event)[0]
             delta_occurance = EVENTS.get(event)[1]
+            client.send_message(
+                {
+                    "type": "stream",
+                    "to": stream,
+                    "topic": topic,
+                    "content": "CONDITION 0 OK",
+                }
+            )
 
             if today.weekday() < 5:
                 client.send_message(
