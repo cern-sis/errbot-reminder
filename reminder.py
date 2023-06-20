@@ -114,6 +114,6 @@ class Reminder(BotPlugin):
                 "type": "stream",
                 "to": "test",
                 "topic": "daily",
-                "content": "TEST Meeting",
+                "text": "TEST Meeting",
             }
         )
