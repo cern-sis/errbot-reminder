@@ -1,4 +1,4 @@
-from datetime import date, datetime, time, timedelta  # , timezone, time
+from datetime import date, datetime, timedelta  # , timezone, time
 
 import pytz
 from errbot import BotPlugin, botcmd
@@ -13,6 +13,26 @@ utc = pytz.timezone("UTC")
 now = utc.localize(datetime.utcnow())
 tz_cern = pytz.timezone("Europe/Zurich")
 now.astimezone(tz_cern)
+
+
+EVENTS = {
+    "sprint planning": (
+        tz_cern.localize(datetime(2022, 2, 28, 15, 30)),
+        timedelta(weeks=2),
+    ),
+    "review": (
+        tz_cern.localize(datetime(2022, 3, 10, 14, 45)),
+        timedelta(weeks=2),
+    ),
+    "Retrospective": (
+        tz_cern.localize(datetime(2022, 3, 11, 9, 30)),
+        timedelta(weeks=2),
+    ),
+    "daily": (
+        tz_cern.localize(datetime(2022, 3, 1, 10, 2)),
+        timedelta(days=1),
+    ),
+}
 
 
 class Reminder(BotPlugin):
@@ -31,30 +51,11 @@ class Reminder(BotPlugin):
 
         return nb_weeks % 2 == 0
 
-    EVENTS = {
-        "Sprint planning": (
-            tz_cern.localize(datetime(2022, 2, 28, 15, 30)),
-            timedelta(weeks=2),
-        ),
-        "Sprint review": (
-            tz_cern.localize(datetime(2022, 3, 10, 14, 45)),
-            timedelta(weeks=2),
-        ),
-        "Sprint retrospective": (
-            tz_cern.localize(datetime(2022, 3, 11, 9, 30)),
-            timedelta(weeks=2),
-        ),
-        "Daily meeting": (
-            tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
-            timedelta(days=1),
-        ),
-    }
-
     @staticmethod
     def next_occurance(meeting, today):
         today = tz_cern.localize(today)
-        next_occurance = Reminder.EVENTS.get(meeting)[0].astimezone(tz_cern)
-        delta_occurance = Reminder.EVENTS.get(meeting)[1]
+        next_occurance = EVENTS.get(meeting)[0].astimezone(tz_cern)
+        delta_occurance = EVENTS.get(meeting)[1]
 
         while next_occurance <= today:
             next_occurance += delta_occurance
@@ -65,8 +66,8 @@ class Reminder(BotPlugin):
     @staticmethod
     def next_daily(today):
         today = tz_cern.localize(today)
-        next_daily = Reminder.EVENTS.get("Daily meeting")[0].astimezone(tz_cern)
-        delta_daily = Reminder.EVENTS.get("Daily meeting")[1]
+        next_daily = EVENTS.get("daily")[0].astimezone(tz_cern)
+        delta_daily = EVENTS.get("daily")[1]
 
         while next_daily <= today:
             next_daily += delta_daily
@@ -87,10 +88,10 @@ class Reminder(BotPlugin):
     @botcmd
     def reminder_next(self, msg, args):
         today = datetime.now()
-        next_planning = Reminder.next_occurance("Sprint planning", today)
+        next_planning = Reminder.next_occurance("sprint planning", today)
         next_daily = Reminder.next_daily(today)
-        next_review = Reminder.next_occurance("Sprint review", today)
-        next_retrospective = Reminder.next_occurance("Sprint retrospective", today)
+        next_review = Reminder.next_occurance("review", today)
+        next_retrospective = Reminder.next_occurance("Retrospective", today)
         return "\n".join(
             [
                 f"Next planning: {next_planning}",
@@ -126,33 +127,70 @@ class Reminder(BotPlugin):
         stream = msg._from._room._id
         client = self._bot.client
 
+        stream = "test"
+
         today = datetime.now()
-        today = tz_cern.localize(today)
 
-        weekday = today.weekday()
-        stream = "test"  # "tools & services"
+        for event in EVENTS:
+            next_occurance = EVENTS.get(event)[0]
+            delta_occurance = EVENTS.get(event)[1]
 
-        if weekday < 5:
-            if weekday == 0 and self.is_sprint_planning():
-                meeting_time = time(17, 38)
-                if today.time() == meeting_time:
-                    client.send_message(
-                        {
-                            "type": "stream",
-                            "to": stream,
-                            "topic": "planning",
-                            "content": "TEST - PLANNING",
-                        }
-                    )
+            if today.weekday() < 5:
+                while next_occurance.date() < today.date():
+                    next_occurance += delta_occurance
 
-        # if day_of_the_week != 5 and day_of_the_week != 6:
+                if next_occurance.date() == today.date():
+                    if next_occurance > today:
+                        next_occurance = next_occurance.replace(second=0, microsecond=0)
+                        today = today.replace(second=0, microsecond=0)
+
+                        if today == next_occurance - timedelta(minutes=15):
+                            client.send_message(
+                                {
+                                    "type": "stream",
+                                    "to": stream,
+                                    "topic": event,
+                                    "content": "TEST - Meeting in 15 minutes",
+                                }
+                            )
+
+                        if today == next_occurance - timedelta(minutes=5):
+                            client.send_message(
+                                {
+                                    "type": "stream",
+                                    "to": stream,
+                                    "topic": event,
+                                    "content": "TEST - Meeting in 5 minutes",
+                                }
+                            )
+
+        # today = datetime.now()
+        # today = tz_cern.localize(today)
+
+        # weekday = today.weekday()
+        # current_time = datetime.now().time()
+        # stream = "test"  # "tools & services"
+
+        # if weekday < 5:
+        #     if weekday == 0 and self.is_sprint_planning():
+        #         meeting_time = time(17, 38)
+        #         if current_time == meeting_time:
+        #             client.send_message(
+        #                 {
+        #                     "type": "stream",
+        #                     "to": stream,
+        #                     "topic": "planning",
+        #                     "content": "TEST - PLANNING",
+        #                 }
+        #             )
+
         #     if date.today().weekday() == 0 and self.is_sprint_planning():
         #         meeting_time = time(17, 40)
         #         topic = "sprint planning"
 
         #     elif date.today().weekday() == 3 and not self.is_sprint_planning():
         #         meeting_time = time(14, 45)
-        #         topic = "sprint review"
+        #         topic = "review"
 
         #     elif date.today().weekday() == 4 and not self.is_sprint_planning():
         #         meeting_time = time(9, 30)

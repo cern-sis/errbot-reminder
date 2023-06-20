@@ -28,7 +28,7 @@ def test_next_planning():
         "**%Y-%m-%d** at **%H:%M**"
     )
 
-    assert Reminder.next_occurance("Sprint planning", test_date) == expected_result
+    assert Reminder.next_occurance("sprint planning", test_date) == expected_result
 
 
 @freeze_time("2023-06-12")
@@ -38,7 +38,7 @@ def test_next_review():
         "**%Y-%m-%d** at **%H:%M**"
     )
 
-    assert Reminder.next_occurance("Sprint review", test_date) == expected_result
+    assert Reminder.next_occurance("review", test_date) == expected_result
 
 
 @freeze_time("2023-06-12")
@@ -46,7 +46,7 @@ def test_next_retrospective():
     test_date = datetime(2023, 6, 12, 15, 32)
     expected_result = datetime(2023, 6, 16, 9, 30).strftime("**%Y-%m-%d** at **%H:%M**")
 
-    assert Reminder.next_occurance("Sprint retrospective", test_date) == expected_result
+    assert Reminder.next_occurance("Retrospective", test_date) == expected_result
 
 
 @freeze_time("2023-06-12 15:32", tz_offset=2)
