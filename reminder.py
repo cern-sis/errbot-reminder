@@ -130,7 +130,18 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": stream,
                                 "topic": topic,
-                                "content": f"**Next meeting:** {meet}/{next_occurance}",
+                                "content": "**Meeting in 15 minutes**",
+                            }
+                        )
+                        next_occurance = next_occurance.replace(second=0, microsecond=0)
+                        today = today.replace(second=0, microsecond=0)
+
+                        client.send_message(
+                            {
+                                "type": "stream",
+                                "to": stream,
+                                "topic": topic,
+                                "content": f"{today}-{next_occurance}",
                             }
                         )
 
