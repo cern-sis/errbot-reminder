@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 10, 32)),
+        tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
         timedelta(days=1),
     ),
 }
@@ -137,10 +137,10 @@ class Reminder(BotPlugin):
 
     @botcmd
     def notify_for_daily_meeting(self, msg, args):
-        # stream = msg._from._room._id
+        stream = msg._from._room._id
         client = self._bot.client
 
-        # stream = "test"
+        stream = "test"
 
         today = tz_cern.localize(datetime.now())
 
@@ -157,15 +157,15 @@ class Reminder(BotPlugin):
                         next_occurance = next_occurance.replace(second=0, microsecond=0)
                         today = today.replace(second=0, microsecond=0)
 
-                        if today == next_occurance - timedelta(minutes=15):
-                            client.send_message(
-                                {
-                                    "type": "stream",
-                                    "to": "test",
-                                    "topic": "daily",
-                                    "content": "TEST - Meeting in 15 minutes",
-                                }
-                            )
+                        # if today == next_occurance - timedelta(minutes=15):
+                        client.send_message(
+                            {
+                                "type": "stream",
+                                "to": stream,
+                                "topic": event,
+                                "content": "TEST - Meeting in 15 minutes",
+                            }
+                        )
 
                         if today == next_occurance - timedelta(minutes=5):
                             client.send_message(
