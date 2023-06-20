@@ -127,7 +127,7 @@ class Reminder(BotPlugin):
                                 "type": "stream",
                                 "to": "test",
                                 "topic": meet,
-                                "content": f"{type(to_time) == type(no_minus_5)}",
+                                "content": f"{type(to_time) , type(no_minus_5)}",
                             }
                         )
 
