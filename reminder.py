@@ -121,7 +121,7 @@ class Reminder(BotPlugin):
         client = self._bot.client
 
         # stream = "test"
-        # topic = "daily"
+        # topic = "daily"d
 
         client.send_message(
             {
