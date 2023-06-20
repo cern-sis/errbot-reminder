@@ -112,7 +112,7 @@ class Reminder(BotPlugin):
 
         if weekday < 5:
             for meet in EVENTS:
-                next_occurance = EVENTS.get(meet)[0]
+                next_occurance = EVENTS.get(meet)[0].astimezone(tz_cern)
                 delta_occurance = EVENTS.get(meet)[1]
 
                 while next_occurance <= today:
@@ -128,10 +128,10 @@ class Reminder(BotPlugin):
                                 "content": "**Meeting in 15 minutes**",
                             }
                         )
-                        next_occurance = next_occurance.replace(
-                            second=0, microsecond=0
-                        ).astimezone(tz_cern)
-                        today = today.replace(second=0, microsecond=0)
+                        # next_occurance = next_occurance.replace(
+                        #     second=0, microsecond=0
+                        # ).astimezone(tz_cern)
+                        # today = today.replace(second=0, microsecond=0)
 
                         client.send_message(
                             {
