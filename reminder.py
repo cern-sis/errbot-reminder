@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 11, 19)),
+        tz_cern.localize(datetime(2022, 3, 1, 11, 24)),
         timedelta(days=1),
     ),
 }
@@ -120,6 +120,7 @@ class Reminder(BotPlugin):
     def send_regular_message(self):
         stream = "test"
         topic = "daily"
+        message = None
 
         today = tz_cern.localize(datetime.now())
 
@@ -142,7 +143,8 @@ class Reminder(BotPlugin):
                         if today == next_occurance - timedelta(minutes=5):
                             message = f"NEXT {event} in 5 minutes"
 
-        self.send_message(stream, topic, message)
+        if message:
+            self.send_message(stream, topic, message)
 
     def send_message(self, stream, topic, content):
         client = self._bot.client
