@@ -107,9 +107,9 @@ class Reminder(BotPlugin):
 
     @botcmd
     def test_cmd(self, msg, arg):
-        client = self._bot  # ._client
+        client = self._bot._client
 
-        client.send(
+        client.send_message(
             {
                 "type": "stream",
                 "to": "test",
