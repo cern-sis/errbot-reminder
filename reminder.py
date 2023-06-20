@@ -102,7 +102,7 @@ class Reminder(BotPlugin):
         )
 
     @botcmd
-    def notify_for_daily_meeting(self, msg, args):
+    def test_cmd(self, msg, args):
         # stream = msg._from._room._id
         client = self._bot.client
 
