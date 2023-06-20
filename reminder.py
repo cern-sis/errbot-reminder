@@ -124,14 +124,15 @@ class Reminder(BotPlugin):
                     next_occurance += delta_occurance
 
                 if next_occurance > today:
-                    client.send_message(
-                        {
-                            "type": "stream",
-                            "to": stream,
-                            "topic": topic,
-                            "content": f"**Next meeting:** {meet} --> {next_occurance}",
-                        }
-                    )
+                    if next_occurance.date() == today.date():
+                        client.send_message(
+                            {
+                                "type": "stream",
+                                "to": stream,
+                                "topic": topic,
+                                "content": f"**Next meeting:** {meet}/{next_occurance}",
+                            }
+                        )
 
     def activate(self):
         super().activate()
