@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
+        tz_cern.localize(datetime(2022, 3, 1, 11, 10)),
         timedelta(days=1),
     ),
 }
@@ -39,14 +39,14 @@ class Reminder(BotPlugin):
     @staticmethod
     def get_monday(today):
         today_weekday = today.weekday()
-        monday = date.today() - timedelta(days=today_weekday)
+        monday = today.date() - timedelta(days=today_weekday)
         monday = datetime.combine(monday, datetime.min.time())
         return monday.date()
 
     @staticmethod
-    def is_sprint_planning():
+    def is_sprint_planning(today):
         first_iteration_startdate = date(2022, 2, 28)
-        nb_days = (first_iteration_startdate - Reminder.get_monday(date.today())).days
+        nb_days = (first_iteration_startdate - Reminder.get_monday(today)).days
         nb_weeks = nb_days // 7
 
         return nb_weeks % 2 == 0
@@ -101,43 +101,54 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def test_cmd(self):
+    def send_notification(self, meet, today):
         client = self._bot.client
+        next_occurance = EVENTS.get(meet)[0]
+        delta_occurance = EVENTS.get(meet)[1]
+
+        while next_occurance <= today:
+            next_occurance += delta_occurance
+
+        if next_occurance > today:
+            if next_occurance.date() == today.date():
+                no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
+                no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
+
+                if no_minus_15 == today.time():
+                    client.send_message(
+                        {
+                            "type": "stream",
+                            "to": "test",
+                            "topic": meet,
+                            "content": "Meeting in 15 minutes",
+                        }
+                    )
+
+                if no_minus_5 == today.time():
+                    client.send_message(
+                        {
+                            "type": "stream",
+                            "to": "test",
+                            "topic": meet,
+                            "content": "Meeting in 5 minutes",
+                        }
+                    )
+
+    def test_cmd(self):
         today = (datetime.now().astimezone(tz_cern)).replace(second=0, microsecond=0)
+        today -= timedelta(days=6)
         weekday = today.weekday()
 
         if weekday < 5:
-            for meet in EVENTS:
-                next_occurance = EVENTS.get(meet)[0]
-                delta_occurance = EVENTS.get(meet)[1]
+            if weekday == 0 and self.is_sprint_planning(today):
+                self.send_notification("sprint planning", today)
 
-                while next_occurance <= today:
-                    next_occurance += delta_occurance
+            elif weekday == 4 and not self.is_sprint_planning(today):
+                self.send_notification("Retrospective", today)
 
-                if next_occurance > today:
-                    if next_occurance.date() == today.date():
-                        no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
-                        no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
-
-                        if no_minus_15 == today.time():
-                            client.send_message(
-                                {
-                                    "type": "stream",
-                                    "to": "test",
-                                    "topic": meet,
-                                    "content": "Meeting in 15 minutes",
-                                }
-                            )
-
-                        if no_minus_5 == today.time():
-                            client.send_message(
-                                {
-                                    "type": "stream",
-                                    "to": "test",
-                                    "topic": meet,
-                                    "content": "Meeting in 5 minutes",
-                                }
-                            )
+            elif weekday == 3 and not self.is_sprint_planning(today):
+                self.send_notification("daily", today)
+                self.send_notification("review", today)
 
     def activate(self):
         super().activate()
