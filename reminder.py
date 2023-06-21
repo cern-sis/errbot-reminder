@@ -134,7 +134,7 @@ class Reminder(BotPlugin):
                         }
                     )
 
-    def test_cmd(self):
+    def notify_for_meetings(self):
         today = (datetime.now().astimezone(tz_cern)).replace(second=0, microsecond=0)
         today -= timedelta(days=6)
         weekday = today.weekday()
@@ -152,4 +152,4 @@ class Reminder(BotPlugin):
 
     def activate(self):
         super().activate()
-        self.start_poller(60, self.test_cmd)
+        self.start_poller(60, self.notify_for_meetings)
