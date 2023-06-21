@@ -150,6 +150,9 @@ class Reminder(BotPlugin):
                 self.send_notification("daily", today)
                 self.send_notification("review", today)
 
+            else:
+                self.send_notification("daily", today)
+
     def activate(self):
         super().activate()
         self.start_poller(60, self.notify_for_meetings)
