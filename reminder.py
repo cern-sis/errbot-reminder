@@ -29,7 +29,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 11, 10)),
+        tz_cern.localize(datetime(2022, 3, 1, 12, 7)),
         timedelta(days=1),
     ),
 }
@@ -72,7 +72,7 @@ class Reminder(BotPlugin):
         while next_daily <= today:
             next_daily += delta_daily
 
-            if Reminder.is_sprint_planning():
+            if Reminder.is_sprint_planning(today):
                 if next_daily.weekday() == 0:
                     next_daily += delta_daily
 
