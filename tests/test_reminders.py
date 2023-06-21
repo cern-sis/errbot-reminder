@@ -12,13 +12,12 @@ sys.path.append(parent_dir)
 
 @freeze_time("2023-06-15")
 def test_get_monday():
-    test_date = date(2023, 6, 15)
-    assert Reminder.get_monday(test_date) == date(2023, 6, 12)
+    assert Reminder.get_monday(datetime.now()) == date(2023, 6, 12)
 
 
 @freeze_time("2023-06-12")
 def test_is_spring_planning():
-    assert not Reminder.is_sprint_planning()
+    assert not Reminder.is_sprint_planning(datetime.now())
 
 
 @freeze_time("2023-06-12")
