@@ -118,7 +118,7 @@ class Reminder(BotPlugin):
                     client.send_message(
                         {
                             "type": "stream",
-                            "to": "tools & services",
+                            "to": "test",
                             "topic": meet,
                             "content": "@all Meeting in 15 minutes",
                         }
@@ -128,7 +128,7 @@ class Reminder(BotPlugin):
                     client.send_message(
                         {
                             "type": "stream",
-                            "to": "tools & services",
+                            "to": "test",
                             "topic": meet,
                             "content": "@all Meeting in 5 minutes",
                         }
