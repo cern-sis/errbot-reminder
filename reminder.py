@@ -136,7 +136,6 @@ class Reminder(BotPlugin):
 
     def notify_for_meetings(self):
         today = (datetime.now().astimezone(tz_cern)).replace(second=0, microsecond=0)
-        today -= timedelta(days=6)
         weekday = today.weekday()
 
         if weekday < 5:
