@@ -114,8 +114,7 @@ class Reminder(BotPlugin):
                 no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
                 no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
 
-                zoom_link = """https://cern.zoom.us/j/92244620606?
-                pwd=UE5VQnFXSkhlVEtHNVFUYUVaS2dXZz09#success"""
+                zoom_link = """https://cern.zoom.us/j/92244620606?"""
 
                 content = f"@**all** [Meeting] ({zoom_link}) in"
 
