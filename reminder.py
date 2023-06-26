@@ -125,7 +125,7 @@ class Reminder(BotPlugin):
                             "type": "stream",
                             "to": "test",
                             "topic": meet,
-                            "content": f"{content} 5 minutes.",
+                            "content": f"{content} 15 minutes.",
                         }
                     )
 
@@ -135,7 +135,7 @@ class Reminder(BotPlugin):
                             "type": "stream",
                             "to": "test",
                             "topic": meet,
-                            "content": f"{content} 15 minutes.",
+                            "content": f"{content} 5 minutes.",
                         }
                     )
 
