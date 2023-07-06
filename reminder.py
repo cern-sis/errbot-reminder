@@ -88,7 +88,7 @@ class Reminder(BotPlugin):
     @botcmd
     def get_id(self, msg, args):
         client = self._bot.client
-        stream_name = "test"
+        stream_name = self._bot.stream  # "test"
         result = client.get_stream_id(stream_name)
         stream_id = result["stream_id"]
 
