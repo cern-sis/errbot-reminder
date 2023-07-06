@@ -87,11 +87,13 @@ class Reminder(BotPlugin):
 
     @botcmd
     def send_link(self, msg, args):
-        stream_name = "test"
+        client = self._bot.client
 
-        stream_info = self.__getattribute__(stream_name)
-        description = stream_info.get("description")
-        return f"XX {description} XX"
+        stream_id = client.get_stream_id("test").get("stream_id")
+
+        stream_info = client.get_stream_info(stream_id).get("stream", {})
+
+        return stream_info.get("description", None)
 
     @botcmd
     def reminder_next(self, msg, args):
