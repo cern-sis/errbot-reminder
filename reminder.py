@@ -17,7 +17,7 @@ now.astimezone(tz_cern)
 
 EVENTS = {
     "sprint planning": (
-        tz_cern.localize(datetime(2022, 2, 28, 15, 30)),
+        tz_cern.localize(datetime(2022, 2, 28, 15, 00)),
         timedelta(weeks=2),
     ),
     "review": (
@@ -84,6 +84,24 @@ class Reminder(BotPlugin):
                     next_daily += timedelta(days=(7 - next_daily.weekday() + 1))
 
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
+
+    @botcmd
+    def send_link(self, msg, args):
+        client = self._bot.client
+        zulip_stream = client.get_stream_info(stream="tools & services")
+        description = zulip_stream["description"]
+
+        stream = "test"
+        topic = "errbot-test"
+
+        client.send_message(
+            {
+                "type": "stream",
+                "to": stream,
+                "topic": topic,
+                "content": description,
+            }
+        )
 
     @botcmd
     def reminder_next(self, msg, args):
