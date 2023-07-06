@@ -90,7 +90,7 @@ class Reminder(BotPlugin):
         # client = self._bot.client
 
         zulip_stream = "test"  # client.get_stream_info(stream="test")
-        description = zulip_stream["description"]
+        description = zulip_stream[1]
 
         return f"XX {description} XX"
 
