@@ -86,12 +86,13 @@ class Reminder(BotPlugin):
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
     @botcmd
-    def send_link(self, msg, args):
+    def get_id(self, msg, args):
         client = self._bot.client
         stream_name = "test"
         result = client.get_stream_id(stream_name)
-        a = client.get_description(result)
-        return a
+        stream_id = result["stream_id"]
+
+        return stream_id
 
     @botcmd
     def reminder_next(self, msg, args):
