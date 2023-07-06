@@ -89,11 +89,9 @@ class Reminder(BotPlugin):
     def send_link(self, msg, args):
         stream_name = "test"
 
-        stream = self._config_info["streams"].get(stream_name)
-
-        if stream:
-            description = stream.get("description")
-            return f"XX {description} XX"
+        stream_info = self.__getattribute__(stream_name)
+        description = stream_info.get("description")
+        return f"XX {description} XX"
 
     @botcmd
     def reminder_next(self, msg, args):
