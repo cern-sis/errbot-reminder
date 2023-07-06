@@ -90,8 +90,10 @@ class Reminder(BotPlugin):
         client = self._bot.client
         stream_name = "test"
         # result = client.get_stream_id(stream_name)
-        response = client.get_stream_info(stream_name)
-        return response
+        response = client.get_subscription(stream_name)
+        subscription = response["subscription"]
+        description = subscription["description"]
+        return description
 
     @botcmd
     def reminder_next(self, msg, args):
