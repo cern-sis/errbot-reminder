@@ -88,14 +88,9 @@ class Reminder(BotPlugin):
     @botcmd
     def send_link(self, msg, args):
         client = self._bot.client
-
-        # Récupérer la liste des flux
-        response = client.get_streams()
-
-        # Rechercher le flux "test" dans la liste
-        for stream in response["streams"]:
-            if stream["name"] == "test":
-                return stream["description"]
+        stream_name = "test"
+        result = client.get_stream_id(stream_name)
+        return result
 
     @botcmd
     def reminder_next(self, msg, args):

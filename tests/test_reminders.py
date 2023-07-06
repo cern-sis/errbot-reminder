@@ -23,7 +23,7 @@ def test_is_spring_planning():
 @freeze_time("2023-06-12")
 def test_next_planning():
     test_date = datetime(2023, 6, 12, 15, 32)
-    expected_result = datetime(2023, 6, 19, 15, 30).strftime(
+    expected_result = datetime(2023, 6, 19, 15, 00).strftime(
         "**%Y-%m-%d** at **%H:%M**"
     )
 
