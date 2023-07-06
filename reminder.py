@@ -87,8 +87,9 @@ class Reminder(BotPlugin):
 
     @botcmd
     def send_link(self, msg, args):
-        client = self._bot.client
-        zulip_stream = client.get_stream_info(stream="test")
+        # client = self._bot.client
+
+        zulip_stream = "test"  # client.get_stream_info(stream="test")
         description = zulip_stream["description"]
 
         return f"XX {description} XX"
