@@ -109,7 +109,6 @@ class Reminder(BotPlugin):
                 f"Next daily: {next_daily}",
                 f"Next review: {next_review}",
                 f"Next retrospective: {next_retrospective}",
-                f"Meeting link {self.meeting_link(None, None)}",
             ]
         )
 
@@ -126,7 +125,7 @@ class Reminder(BotPlugin):
                 no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
                 no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
 
-                zoom_link = " "
+                zoom_link = self.meeting_link(None, None)
 
                 content = f"@**all** [Meeting] ({zoom_link}) in"
 
