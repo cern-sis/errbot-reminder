@@ -94,13 +94,9 @@ class Reminder(BotPlugin):
     @botcmd
     def get_description(self, msg, args):
         # client = self._bot.client
-        streams = self.get_id(msg, args)
+        streams = "test"
 
-        stream_test = next(
-            (stream for stream in streams if stream["name"] == "test"), None
-        )
-
-        description = stream_test["description"]
+        description = streams["description"]
 
         return description
 
