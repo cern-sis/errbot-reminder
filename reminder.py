@@ -109,7 +109,7 @@ class Reminder(BotPlugin):
                 f"Next daily: {next_daily}",
                 f"Next review: {next_review}",
                 f"Next retrospective: {next_retrospective}",
-                f"Meeting link {self.meeting_link()}",
+                f"Meeting link {self.meeting_link(None, None)}",
             ]
         )
 
