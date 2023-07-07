@@ -90,7 +90,7 @@ class Reminder(BotPlugin):
         client = self._bot.client
         result = client.get_streams()
         for i in result:
-            return result["streams"][i]
+            return i
 
     @botcmd
     def reminder_next(self, msg, args):
