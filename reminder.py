@@ -92,7 +92,7 @@ class Reminder(BotPlugin):
         liste = []
 
         for stream in result["streams"]:
-            id_stream = stream["stream_id"]
+            id_stream = stream["stream_name"]
             # description = stream["description"]
 
             liste.append(id_stream)
