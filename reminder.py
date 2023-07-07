@@ -93,7 +93,8 @@ class Reminder(BotPlugin):
         for stream in result["streams"]:
             liste.append(stream)
 
-        output = f"\n\n{liste}"
+        output = f"\n\n AAAAAAAAAAAAAAAAAAAA {liste}"
+
         return output
 
     @botcmd
