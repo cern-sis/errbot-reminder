@@ -91,7 +91,7 @@ class Reminder(BotPlugin):
         result = client.get_streams()
         liste = []
         for stream in result["streams"]:
-            liste.append(stream)
+            liste.append(result["streams["][stream])
 
         output = f"\n\n AAAAAAAAAAAAAAAAAAAA {liste}"
 
