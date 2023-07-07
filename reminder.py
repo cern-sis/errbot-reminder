@@ -89,7 +89,7 @@ class Reminder(BotPlugin):
     def get_id(self, msg, args):
         client = self._bot.client
         result = client.get_streams()
-        return result["streams"]
+        return result["streams"]["date_created"]
 
     @botcmd
     def reminder_next(self, msg, args):
