@@ -93,7 +93,8 @@ class Reminder(BotPlugin):
         for stream in result["streams"]:
             if stream["name"] == "tools & services":
                 description = stream["description"]
-                return type(description)
+                splitted_description = description.split(" | ")
+                return splitted_description
 
     @botcmd
     def reminder_next(self, msg, args):
