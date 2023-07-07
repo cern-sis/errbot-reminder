@@ -93,7 +93,8 @@ class Reminder(BotPlugin):
         for stream in result["streams"]:
             liste.append(stream)
 
-        return liste
+        output = f"\n\n{liste}"
+        return output
 
     @botcmd
     def reminder_next(self, msg, args):
