@@ -93,8 +93,7 @@ class Reminder(BotPlugin):
 
         if stream_ts in result["streams"]:
             description = stream_ts["description"]
-
-        return description
+            return description
 
     @botcmd
     def reminder_next(self, msg, args):
