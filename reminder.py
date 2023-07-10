@@ -98,10 +98,10 @@ class Reminder(BotPlugin):
             include_public = False,
         )
 
-        stream = filter(
+        stream = next(filter(
             lambda s: s["id"] == CONFIG["ts_stream_id"],
             response["streams"],
-        )[0]
+        ))
         match = CONFIG["zoom_url_regex"].match(stream["description"])
 
         return match.group()
