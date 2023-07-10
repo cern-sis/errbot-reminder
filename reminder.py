@@ -36,8 +36,8 @@ EVENTS = {
 }
 
 CONFIG = {
-    ts_stream_id = 311658,
-    zoom_url_regex = re.compile('https://cern.zoom.us/j/\d+?pwd=\w+'),
+    "ts_stream_id":  311658,
+    "zoom_url_regex":  re.compile('https://cern.zoom.us/j/\d+?pwd=\w+'),
 }
 
 
