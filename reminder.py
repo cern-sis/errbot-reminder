@@ -37,7 +37,7 @@ EVENTS = {
 
 CONFIG = {
     "ts_stream_id":  311658,
-    "zoom_url_regex":  re.compile('https://cern.zoom.us/j/\d+?pwd=\w+'),
+    "zoom_url_regex":  re.compile('https://cern.zoom.us/j/\d+\?pwd=\w+'),
 }
 
 
@@ -102,7 +102,7 @@ class Reminder(BotPlugin):
             lambda s: s["stream_id"] == CONFIG["ts_stream_id"],
             response["streams"],
         ))
-        match = CONFIG["zoom_url_regex"].match(stream["description"])
+        match = CONFIG["zoom_url_regex"].search(stream["description"])
 
         return match.group()
 
