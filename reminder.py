@@ -95,7 +95,7 @@ class Reminder(BotPlugin):
         client = self._bot.client
         # Get stream by id is currently not available on the python client.
         response = client.get_streams(
-            include_public = false,
+            include_public = False,
         )
 
         stream = filter(
