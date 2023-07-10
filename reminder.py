@@ -1,7 +1,8 @@
-from datetime import date, datetime, timedelta  # , timezone, time
+from datetime import date, datetime, timedelta
 
 import pytz
 from errbot import BotPlugin, botcmd
+import re
 
 # Daily / Retrospective --> If it's an ordinary day or a retrospective, meeting at 9:30
 # Sprint Planning --> If it's a Sprint planning, meeting at 15:30
@@ -32,6 +33,11 @@ EVENTS = {
         tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
         timedelta(days=1),
     ),
+}
+
+CONFIG = {
+    ts_stream_id = 311658,
+    zoom_url_regex = re.compile('https://cern.zoom.us/j/\d+?pwd=\w+'),
 }
 
 
@@ -85,16 +91,24 @@ class Reminder(BotPlugin):
 
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
-    @botcmd
-    def meeting_link(self, msg, args):
+    def zoom_meeting_url(self):
         client = self._bot.client
-        result = client.get_streams()
+        # Get stream by id is currently not available on the python client.
+        response = client.get_streams(
+            include_public = false,
+        )
 
-        for stream in result["streams"]:
-            if stream["name"] == "tools & services":
-                description = stream["description"]
-                splitted_description = description.split(" | ")
-                return splitted_description[0]
+        stream = filter(
+            lambda s: s["id"] == CONFIG["ts_stream_id"],
+            response["streams"],
+        )[0]
+        match = CONFIG["zoom_url_regex"].match(stream["description"])
+
+        return match.group()
+
+    @botcmd
+    def reminder_link(self, msg, args):
+        return f"[Link]({self.zoom_meeting_url()}) to our Zoom meeting"
 
     @botcmd
     def reminder_next(self, msg, args):
@@ -112,40 +126,38 @@ class Reminder(BotPlugin):
             ]
         )
 
-    def send_notification(self, meet, today):
+    def send_notification(self, meeting, today):
         client = self._bot.client
-        next_occurance = EVENTS.get(meet)[0]
-        delta_occurance = EVENTS.get(meet)[1]
+        next_occurance = EVENTS.get(meeting)[0]
+        delta_occurance = EVENTS.get(meeting)[1]
 
         while next_occurance <= today:
             next_occurance += delta_occurance
 
         if next_occurance > today:
             if next_occurance.date() == today.date():
-                no_minus_15 = (next_occurance - timedelta(minutes=15)).time()
-                no_minus_5 = (next_occurance - timedelta(minutes=5)).time()
+                now_minus_15 = (next_occurance - timedelta(minutes=15)).time()
+                now_minus_5 = (next_occurance - timedelta(minutes=5)).time()
 
-                zoom_link = self.meeting_link(None, None)
+                zoom_link = self.zoom_meeting_url()
 
-                content = f"@**all** [Meeting] ({zoom_link}) in"
-
-                if no_minus_15 == today.time():
+                if now_minus_15 == today.time():
                     client.send_message(
                         {
                             "type": "stream",
                             "to": "tools & services",
-                            "topic": meet,
-                            "content": f"{content} 15 minutes.",
+                            "topic": meeting,
+                            "content": f"@**all** [meeting]({zoom_link}) in 15 minutes.",
                         }
                     )
 
-                if no_minus_5 == today.time():
+                if now_minus_5 == today.time():
                     client.send_message(
                         {
                             "type": "stream",
                             "to": "tools & services",
-                            "topic": meet,
-                            "content": f"{content} 5 minutes.",
+                            "topic": meeting,
+                            "content": f"@**all** [meeting]({zoom_link}) in 5 minutes.",
                         }
                     )
 
