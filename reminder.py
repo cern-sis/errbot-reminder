@@ -22,7 +22,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "review": (
-        tz_cern.localize(datetime(2022, 3, 10, 16, 00)),
+        tz_cern.localize(datetime(2022, 3, 10, 15, 30)),
         timedelta(weeks=2),
     ),
     "Retrospective": (
