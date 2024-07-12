@@ -14,6 +14,7 @@ freezegun = "^1.2.2"
 datetime = "^5.1"
 pytz = "^2023.3"
 errbot = "^6.1.9"
+openai = "^1.35.13"
 
 [build-system]
 requires = ["poetry-core"]

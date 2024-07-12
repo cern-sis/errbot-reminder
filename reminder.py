@@ -3,7 +3,10 @@ from datetime import date, datetime, timedelta
 import pytz
 from errbot import BotPlugin, botcmd
 import re
-
+from openai import OpenAI
+import httpx
+import os
+import random
 # Daily / Retrospective --> If it's an ordinary day or a retrospective, meeting at 9:30
 # Sprint Planning --> If it's a Sprint planning, meeting at 15:30
 # Sprint review --> If it's a Sprint Review, meeting at 14:45
@@ -22,7 +25,7 @@ EVENTS = {
         timedelta(weeks=2),
     ),
     "review": (
-        tz_cern.localize(datetime(2022, 3, 10, 15, 30)),
+        tz_cern.localize(datetime(2022, 3, 10, 15, 00)),
         timedelta(weeks=2),
     ),
     "Retrospective": (
@@ -91,6 +94,26 @@ class Reminder(BotPlugin):
 
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
+    def get_openai_message(meeting_type, zoom_link, time_until_meeting):
+        character = ["Marvin from Hitchhiker's Guide To The Galaxy."]
+        client = OpenAI(timeout=httpx.Timeout(15.0, read=5.0, write=10.0, connect=3.0), api_key=os.environ.get("OPENAI_API_KEY"),)
+        prompt = (
+            f"You are a chatbot that announces the next meeting."
+            f"Your character is {random.choice(character)}."
+            f"The meeting is happening in {time_until_meeting} minutes and it is a {meeting_type} meeting. "
+            "Create a short text message for this announcement."
+        )
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": prompt}
+            ],
+            max_tokens=50
+        )
+        message_content = response.choices[0].message.content.strip()
+        final_message = f"@**all** {message_content} \n\n [meeting]({zoom_link})."
+        return final_message
+
     def zoom_meeting_url(self):
         client = self._bot.client
         # Get stream by id is currently not available on the python client.
@@ -152,12 +175,17 @@ class Reminder(BotPlugin):
                     )
 
                 if now_minus_5 == today.time():
+                    try:
+                        Reminder.get_openai_message(meeting, zoom_link, 5)
+                    except Exception:
+                        content = f"@**all** [meeting]({zoom_link}) in 5 minutes."
+                    
                     client.send_message(
                         {
                             "type": "stream",
                             "to": "tools & services",
                             "topic": meeting,
-                            "content": f"@**all** [meeting]({zoom_link}) in 5 minutes.",
+                            "content": content,
                         }
                     )
 
