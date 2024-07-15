@@ -131,6 +131,10 @@ class Reminder(BotPlugin):
         return match.group()
 
     @botcmd
+    def test_ai_message(self, msg, args):
+        return Reminder.get_openai_message("daily", "abc", 5)
+    
+    @botcmd
     def reminder_link(self, msg, args):
         return f"[Link]({self.zoom_meeting_url()}) to our Zoom meeting"
 
