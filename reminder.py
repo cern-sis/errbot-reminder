@@ -94,6 +94,7 @@ class Reminder(BotPlugin):
 
         return next_daily.strftime("**%Y-%m-%d** at **%H:%M**")
 
+    @staticmethod
     def get_openai_message(meeting_type, zoom_link, time_until_meeting):
         character = ["Marvin from Hitchhiker's Guide To The Galaxy."]
         client = OpenAI(timeout=httpx.Timeout(15.0, read=5.0, write=10.0, connect=3.0), api_key=os.environ.get("OPENAI_API_KEY"),)
@@ -176,7 +177,7 @@ class Reminder(BotPlugin):
 
                 if now_minus_5 == today.time():
                     try:
-                        Reminder.get_openai_message(meeting, zoom_link, 5)
+                        content = Reminder.get_openai_message(meeting, zoom_link, 5)
                     except Exception:
                         content = f"@**all** [meeting]({zoom_link}) in 5 minutes."
                     
