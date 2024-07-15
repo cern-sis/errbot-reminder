@@ -32,8 +32,8 @@ def test_next_planning():
 
 @freeze_time("2023-06-12")
 def test_next_review():
-    test_date = datetime(2023, 6, 12, 15, 32)
-    expected_result = datetime(2023, 6, 15, 16, 00).strftime(
+    test_date = datetime(2023, 6, 12, 14, 32)
+    expected_result = datetime(2023, 6, 15, 15, 00).strftime(
         "**%Y-%m-%d** at **%H:%M**"
     )
 
@@ -61,7 +61,7 @@ def test_next_daily():
 def test_reminder_next():
     planning_content = datetime(2023, 6, 19, 15, 00)
     daily_content = datetime(2023, 6, 13, 9, 30)
-    review_content = datetime(2023, 6, 15, 16, 00)
+    review_content = datetime(2023, 6, 15, 15, 00)
     restrospective_content = datetime(2023, 6, 16, 9, 30).strftime(
         "**%Y-%m-%d** at **%H:%M**"
     )
