@@ -96,11 +96,12 @@ class Reminder(BotPlugin):
 
     @staticmethod
     def get_openai_message(meeting_type, zoom_link, time_until_meeting):
-        character = ["Marvin from Hitchhiker's Guide To The Galaxy."]
+        character = ["Your character is Marvin from Hitchhiker's Guide To The Galaxy.",
+                     "You are super hyped for everything.",]
         client = OpenAI(timeout=httpx.Timeout(15.0, read=5.0, write=10.0, connect=3.0), api_key=os.environ.get("OPENAI_API_KEY"),)
         prompt = (
             f"You are a chatbot that announces the next meeting."
-            f"Your character is {random.choice(character)}."
+            f"{character[1]}."
             f"The meeting is happening in {time_until_meeting} minutes and it is a {meeting_type} meeting. "
             "Create a short text message for this announcement."
         )
@@ -109,7 +110,6 @@ class Reminder(BotPlugin):
             messages=[
                 {"role": "system", "content": prompt}
             ],
-            max_tokens=50
         )
         message_content = response.choices[0].message.content.strip()
         final_message = f"@**all** {message_content} \n\n [meeting]({zoom_link})."
