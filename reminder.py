@@ -108,8 +108,7 @@ class Reminder(BotPlugin):
             model="gpt-5.1",
             messages=[
                 {"role": "system", "content": prompt}
-            ],
-            max_tokens=50
+            ]
         )
         message_content = response.choices[0].message.content.strip()
         final_message = f"@**all** {message_content} \n\n [meeting]({zoom_link})."
