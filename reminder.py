@@ -21,19 +21,19 @@ now.astimezone(tz_cern)
 
 EVENTS = {
     "sprint planning": (
-        tz_cern.localize(datetime(2022, 2, 28, 15, 00)),
+        tz_cern.localize(datetime(2026, 1, 5, 15, 00)),
         timedelta(weeks=2),
     ),
     "review": (
-        tz_cern.localize(datetime(2022, 3, 10, 15, 00)),
+        tz_cern.localize(datetime(2026, 1, 15, 15, 00)),
         timedelta(weeks=2),
     ),
     "Retrospective": (
-        tz_cern.localize(datetime(2022, 3, 11, 9, 30)),
+        tz_cern.localize(datetime(2026, 1, 16, 9, 30)),
         timedelta(weeks=2),
     ),
     "daily": (
-        tz_cern.localize(datetime(2022, 3, 1, 9, 30)),
+        tz_cern.localize(datetime(2026, 1, 5, 9, 30)),
         timedelta(days=1),
     ),
 }
@@ -54,7 +54,7 @@ class Reminder(BotPlugin):
 
     @staticmethod
     def is_sprint_planning(today):
-        first_iteration_startdate = date(2022, 2, 28)
+        first_iteration_startdate = date(2026, 1, 5)
         nb_days = (first_iteration_startdate - Reminder.get_monday(today)).days
         nb_weeks = nb_days // 7
 
@@ -105,7 +105,7 @@ class Reminder(BotPlugin):
             "Create a short text message for this announcement."
         )
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-5.1",
             messages=[
                 {"role": "system", "content": prompt}
             ],
