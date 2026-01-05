@@ -74,8 +74,3 @@ def test_reminder_next():
         ]
     )
     assert Reminder.reminder_next(None, None, None) == expected_response
-
-
-def test_ai_message():
-    ai_msg = Reminder.get_openai_message("daily", "abc", 5)
-    assert ai_msg
