@@ -30,22 +30,13 @@ def test_next_planning():
     assert Reminder.next_occurance("sprint planning", test_date) == expected_result
 
 
-@freeze_time("2026-02-16")
-def test_next_review():
-    test_date = datetime(2026, 2, 16, 14, 32)
-    expected_result = datetime(2026, 2, 26, 15, 00).strftime(
-        "**%Y-%m-%d** at **%H:%M**"
-    )
-
-    assert Reminder.next_occurance("review", test_date) == expected_result
-
 
 @freeze_time("2026-02-16")
-def test_next_retrospective():
+def test_next_retrospective_review():
     test_date = datetime(2026, 2, 16, 15, 32)
     expected_result = datetime(2026, 2, 27, 9, 30).strftime("**%Y-%m-%d** at **%H:%M**")
 
-    assert Reminder.next_occurance("Retrospective", test_date) == expected_result
+    assert Reminder.next_occurance("Retrospective and review", test_date) == expected_result
 
 
 @freeze_time("2026-06-12 15:32", tz_offset=2)
@@ -61,16 +52,14 @@ def test_next_daily():
 def test_reminder_next():
     planning_content = datetime(2026, 2, 16, 15, 00)
     daily_content = datetime(2026, 2, 16, 9, 30)
-    review_content = datetime(2026, 2, 26, 15, 00)
-    restrospective_content = datetime(2026, 2, 27, 9, 30).strftime(
+    restrospective_review_content = datetime(2026, 2, 27, 9, 30).strftime(
         "**%Y-%m-%d** at **%H:%M**"
     )
     expected_response = "\n".join(
         [
             f"Next planning: {planning_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
             f"Next daily: {daily_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
-            f"Next review: {review_content.strftime('**%Y-%m-%d** at **%H:%M**')}",
-            f"Next retrospective: {restrospective_content}",
+            f"Next retrospective and review: {restrospective_review_content}",
         ]
     )
     assert Reminder.reminder_next(None, None, None) == expected_response

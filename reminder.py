@@ -9,7 +9,6 @@ import os
 import random
 # Daily / Retrospective --> If it's an ordinary day or a retrospective, meeting at 9:30
 # Sprint Planning --> If it's a Sprint planning, meeting at 15:30
-# Sprint review --> If it's a Sprint Review, meeting at 14:45
 
 #  -----------------
 
@@ -24,11 +23,7 @@ EVENTS = {
         tz_cern.localize(datetime(2026, 1, 5, 15, 00)),
         timedelta(weeks=2),
     ),
-    "review": (
-        tz_cern.localize(datetime(2026, 1, 15, 15, 00)),
-        timedelta(weeks=2),
-    ),
-    "Retrospective": (
+    "Retrospective and review": (
         tz_cern.localize(datetime(2026, 1, 16, 9, 30)),
         timedelta(weeks=2),
     ),
@@ -142,14 +137,12 @@ class Reminder(BotPlugin):
         today = datetime.now()
         next_planning = Reminder.next_occurance("sprint planning", today)
         next_daily = Reminder.next_daily(today)
-        next_review = Reminder.next_occurance("review", today)
-        next_retrospective = Reminder.next_occurance("Retrospective", today)
+        next_retrospective_review = Reminder.next_occurance("Retrospective and review", today)
         return "\n".join(
             [
                 f"Next planning: {next_planning}",
                 f"Next daily: {next_daily}",
-                f"Next review: {next_review}",
-                f"Next retrospective: {next_retrospective}",
+                f"Next retrospective and review: {next_retrospective_review}",
             ]
         )
 
@@ -202,11 +195,10 @@ class Reminder(BotPlugin):
                 self.send_notification("sprint planning", today)
 
             elif weekday == 4 and not self.is_sprint_planning(today):
-                self.send_notification("Retrospective", today)
+                self.send_notification("Retrospective and review", today)
 
             elif weekday == 3 and not self.is_sprint_planning(today):
                 self.send_notification("daily", today)
-                self.send_notification("review", today)
 
             else:
                 self.send_notification("daily", today)
